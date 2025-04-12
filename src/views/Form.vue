@@ -10,34 +10,46 @@
         <div>
           <h4 class="text-bold q-mb-md text-h5">DATOS DEL PARTICIPANTE</h4>
           <div class="row q-col-gutter-md">
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-6 displayBlack ">
+              <div class="form-field">
+                 <label for="documento">Número de documento</label>
               <q-input
                 filled
-                label="Número de documento"
+                dense
                 v-model="form.documento"
                 :rules="[val => !!val || 'Campo requerido']"
               />
+              </div>
+             
             </div>
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-6 displayBlack">
+              <div class="form-field">
+                 <label for="nombre">Nombres completos</label>
               <q-input
                 filled
-                label="Nombres completos"
+                dense
                 v-model="form.nombre"
                 :rules="[val => !!val || 'Campo requerido']"
               />
             </div>
-            <div class="col-12 col-md-6">
+            </div>
+            <div class="col-12 col-md-6 displayBlack">
+              <div class="form-field">
+                 <label for="telefono">Teléfono</label>
               <q-input
                 filled
-                label="Teléfono"
+                dense
                 v-model="form.telefono"
                 :rules="[val => !!val || 'Campo requerido']"
               />
+              </div>
             </div>
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-6 displayBlack">
+              <div class="form-field">
+                 <label for="email">Correo electrónico</label>
               <q-input
                 filled
-                label="Correo electrónico"
+                dense
                 v-model="form.email"
                 :rules="[
                   val => !!val || 'Campo requerido',
@@ -45,15 +57,22 @@
                 ]"
               />
             </div>
+            </div>
             <div class="col-12">
-              <q-toggle v-model="form.resideColombia" label="¿Reside en Colombia?" color="green" />
+              <q-toggle v-model="form.resideColombia" label="¿Reside en Colombia?" color="primary" />
             </div>
-            <div class="col-12 col-md-6">
-              <q-input filled label="Dirección" v-model="form.direccion" />
+            <div class="col-12 col-md-6 displayBlack">
+              <div class="form-field">
+                 <label for="direccion">Dirección</label>
+              <q-input filled dense v-model="form.direccion" />
             </div>
-            <div class="col-12 col-md-6">
-              <q-input filled label="Grupo / Empresa / Institución" v-model="form.grupo" />
             </div>
+            <div class="col-12 col-md-6 displayBlack">
+              <div class="form-field">
+                 <label for="grupo">Grupo / Empresa / Institución</label>
+              <q-input filled dense v-model="form.grupo" />
+            </div>
+          </div>
           </div>
         </div>
 
@@ -61,28 +80,37 @@
         <div class="q-mt-xl">
           <h4 class="text-bold q-mb-md text-h5">DATOS DE EMERGENCIA</h4>
           <div class="row q-col-gutter-md">
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-6 displayBlack">
+              <div class="form-field">
+                 <label for="contactoEmergencia">Nombre del contacto de emergencia</label>
               <q-input
                 filled
-                label="Nombre del contacto de emergencia"
+                dense
                 v-model="form.contactoEmergencia"
                 :rules="[val => !!val || 'Campo requerido']"
               />
             </div>
-            <div class="col-12 col-md-6">
+            </div>
+            <div class="col-12 col-md-6 displayBlack">
+              <div class="form-field">
+                 <label for="telefonoEmergencia">Teléfono del contacto de emergencia</label>
               <q-input
                 filled
-                label="Teléfono del contacto de emergencia"
+                dense
                 v-model="form.telefonoEmergencia"
                 :rules="[val => !!val || 'Campo requerido']"
               />
             </div>
-            <div class="col-12 col-md-6">
+            </div>
+            <div class="col-12 col-md-6 displayBlack">
+              <div class="form-field">
+                 <label for="eps">EPS a la que pertenece</label>
               <q-input
                 filled
-                label="EPS a la que pertenece"
+                dense
                 v-model="form.eps"
               />
+            </div>
             </div>
           </div>
         </div>
@@ -91,41 +119,53 @@
         <div class="q-mt-xl">
           <h4 class="text-bold q-mb-md text-h5">DATOS DE LA CARRERA</h4>
           <div class="row q-col-gutter-md">
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-6 displayBlack">
+              <div class="form-field">
+                 <label for="sangre">Tipo de sangre</label>
               <q-select
                 filled
-                label="Tipo de sangre"
+                dense
                 v-model="form.sangre"
                 :options="['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-']"
                 :rules="[val => !!val || 'Campo requerido']"
               />
             </div>
-            <div class="col-12 col-md-6">
+            </div>
+            <div class="col-12 col-md-6 displayBlack">
+              <div class="form-field">
+                 <label for="distancia">Distancia</label>
               <q-select
                 filled
-                label="Distancia"
+                dense
                 v-model="form.distancia"
                 :options="['5K', '10K', '21K']"
                 :rules="[val => !!val || 'Campo requerido']"
               />
             </div>
-            <div class="col-12 col-md-6">
+            </div>
+            <div class="col-12 col-md-6 displayBlack">
+              <div class="form-field">
+                 <label for="genero">Género</label>
               <q-select
                 filled
-                label="Género"
+                dense
                 v-model="form.genero"
                 :options="['Femenino', 'Masculino', 'Otro']"
                 :rules="[val => !!val || 'Campo requerido']"
               />
+              </div>
             </div>
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-6 displayBlack">
+              <div class="form-field">
+                 <label for="fechaNacimiento">Fecha de nacimiento</label>
               <q-input
                 filled
-                label="Fecha de nacimiento"
+                dense
                 type="date"
                 v-model="form.fechaNacimiento"
                 :rules="[val => !!val || 'Campo requerido']"
               />
+            </div>
             </div>
             <div class="col-12 col-md-6">
               <q-input
@@ -136,23 +176,29 @@
                 :rules="[val => !!val || 'Campo requerido']"
               />
             </div>
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-6 displayBlack">
+              <div class="form-field">
+                 <label for="talla">Talla de camiseta</label>
               <q-select
                 filled
-                label="Talla de camiseta"
+                dense
                 v-model="form.talla"
                 :options="['XS', 'S', 'M', 'L', 'XL', 'XXL']"
                 :rules="[val => !!val || 'Campo requerido']"
               />
             </div>
-            <div class="col-12 col-md-6">
+            </div>
+            <div class="col-12 col-md-6 displayBlack">
+              <div class="form-field">
+                 <label for="categoria">Categoría</label>
               <q-select
                 filled
-                label="Categoría"
+                dense
                 v-model="form.categoria"
                 :options="['Juvenil', 'Élite', 'Master', 'Senior']"
                 :rules="[val => !!val || 'Campo requerido']"
               />
+            </div>
             </div>
           </div>
         </div>
@@ -216,6 +262,10 @@ const onReset = () => {
 </script>
 
 <style scoped>
+
+*{
+  font-family: "Montserrat", sans-serif;
+}
 .form-container {
   position: relative;
   min-height: 100vh;
@@ -240,11 +290,25 @@ const onReset = () => {
   position: relative;
   z-index: 1;
 }
+
+.displayBlack{
+   display: block;
+}
+
+
 h4 {
   background-image: url("/banner.png");
   background-repeat: no-repeat;
   background-size: cover;
   color: #fffdfd;
   padding: 10px;
+}
+
+form label{
+  
+  font-size: 15px;
+  font-weight: 400;
+  color: rgb(103, 117, 124);
+  
 }
 </style>
