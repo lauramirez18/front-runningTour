@@ -1,7 +1,7 @@
 <template>
     <q-layout view="lhh lpR fFf">
   
-      <q-header elevated class="bg-primary text-white" height-hint="98"  v-show="$route.path !== '/' && $route.path !== '/'">
+      <q-header elevated class="bg-primary text-white" height-hint="98"  v-show="$route.path !== '/' && $route.path !== '/' && $route.path !== '/login' && $route.path !== '/form'">
         <q-toolbar>
           <q-toolbar-title>
             <q-avatar>
@@ -22,7 +22,7 @@
         <router-view />
       </q-page-container>
   
-      <q-footer bordered class="bg-grey-8 text-white">
+      <q-footer bordered class="bg-black-8 text-white">
         <q-toolbar>
          
         </q-toolbar>

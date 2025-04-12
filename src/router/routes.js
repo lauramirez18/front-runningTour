@@ -1,8 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import  MainLayout from '../layouts/MainLayout.vue'
-import Approved from '../views/Approved.vue'
-import Pendent from '../views/Pendent.vue'
-import Disapproved from '../views/Disapproved.vue'
+import Dashboard from '../views/Dashboard.vue'
 import Login from '../views/Login.vue'
 import Form from '../views/Form.vue'
 
@@ -22,20 +20,11 @@ const routes = [
                 component: Form
               },
             {
-                path:'/approved',
-                name: 'Approved',
-                component: Approved,
+                path:'/dashboard',
+                name: 'Dashboard',
+                component: Dashboard,
             },
-            {
-                path:'/pendent',
-                name: 'Pendent',
-                component: Pendent,
-            },
-            {
-                path:'/disapproved',
-                name: 'Disapproved',
-                component: Disapproved,
-            },
+            
             {
                 path:'/form',
                 name: 'Form',
