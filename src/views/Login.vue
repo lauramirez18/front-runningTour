@@ -34,7 +34,7 @@
             <q-form @submit.prevent="iniciarSesion" class="q-gutter-md q-mt-sm form-wrapper">
   
               <q-input
-                v-model="usuario"
+                v-model="user"
                 label="Usuario"
                 outlined
                 dense
@@ -45,7 +45,7 @@
               />
   
               <q-input
-                v-model="contrasena"
+                v-model="password"
                 label="Contraseña"
                 :type="showPassword ? 'text' : 'password'"
                 outlined
@@ -85,36 +85,74 @@
   import { ref } from 'vue'
   import { useRouter } from 'vue-router'
   import { Notify } from 'quasar'
-  
+  import {postData} from '../services/apiClient.js'
+  import {useStore} from '../store/store.js'
+  const store = useStore();
   const router = useRouter()
   
   const mostrarLogin = ref(false)
-  const usuario = ref('')
-  const contrasena = ref('')
+  const user = ref('')
+  const password = ref('')
   const showPassword = ref(false)
   
   const redirigirAInscripcion = () => {
     router.push('/form')
   }
   
-  const iniciarSesion = () => {
-    if (!usuario.value || !contrasena.value) {
+  const iniciarSesion =async () => {
+   try {
+    if (!user.value || !password.value) {
       Notify.create({
         type: 'negative',
         message: 'Por favor completa todos los campos'
       })
       return
     }
-  
-    // Lógica de login
+    console.log({user:user.value, password:password.value});
+    const response = await postData("/user/login",{
+      user:user.value,
+      password:password.value
+    });
+    store.set_Token(response.token)
     Notify.create({
       type: 'positive',
       message: 'Inicio de sesión exitoso'
     })
+    router.replace("/dashboard")
+   } catch (error) {
+    Notify.create({
+      type: 'negative',
+      message: 'Inicio de sesión fallido'
+    })
+    console.log(error);
+   }
   }
   </script>
   
-  <style scoped>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<style scoped>
 
   /*.bg-login {
 
