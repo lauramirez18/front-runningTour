@@ -13,11 +13,11 @@
           <div class="row q-col-gutter-md">
             <div class="col-12 col-md-6 displayBlack ">
               <div class="form-field">
-                 <label for="documento">Número de documento <span class="text-negative">*</span></label>
+                <label for="documento">Número de documento</label>
               <q-input
                 filled
-                dense
-                v-model="form.documento"
+
+                v-model="form.documentNumber"
                 :rules="[val => !!val || 'Campo requerido']"
               />
               </div>
@@ -25,29 +25,37 @@
             </div>
             <div class="col-12 col-md-6 displayBlack">
               <div class="form-field">
-                 <label for="nombre">Nombres completos <span class="text-negative">*</span></label>
+                 <label for="nombre">Primer nombre</label>
               <q-input
                 filled
                 dense
-                v-model="form.nombre"
+                v-model="form.firstName"
+                :rules="[val => !!val || 'Campo requerido']"
+              />
+            </div>
+            <div class="col-12 col-md-6">
+              <label for="">Segundo nombre</label>
+              <q-input
+                filled
+                v-model="form.lastName"
                 :rules="[val => !!val || 'Campo requerido']"
               />
             </div>
             </div>
             <div class="col-12 col-md-6 displayBlack">
               <div class="form-field">
-                 <label for="telefono">Teléfono <span class="text-negative">*</span></label>
+                <label for="telefono">Teléfono</label>
               <q-input
                 filled
                 dense
-                v-model="form.telefono"
+                v-model="form.phone"
                 :rules="[val => !!val || 'Campo requerido']"
               />
               </div>
             </div>
             <div class="col-12 col-md-6 displayBlack">
               <div class="form-field">
-                 <label for="email">Correo electrónico <span class="text-negative">*</span></label>
+                <label for="email">Correo electrónico</label>
               <q-input
                 filled
                 dense
@@ -60,20 +68,14 @@
             </div>
             </div>
             <div class="col-12">
-              <q-toggle v-model="form.resideColombia" label="¿Reside en Colombia?" color="primary" />
+              <q-toggle v-model="form.livesInColombia" label="¿Reside en Colombia?" color="green" />
             </div>
-            <div class="col-12 col-md-6 displayBlack">
-              <div class="form-field">
-                 <label for="direccion">Dirección de residencia <span class="text-negative">*</span></label>
-              <q-input filled dense v-model="form.direccion" />
+            <div class="col-12 col-md-6">
+              <q-input filled label="Dirección" v-model="form.address" />
             </div>
+            <div class="col-12 col-md-6">
+              <q-input filled label="Grupo / Empresa / Institución" v-model="form.organization" />
             </div>
-            <div class="col-12 col-md-6 displayBlack">
-              <div class="form-field">
-                 <label for="grupo">Grupo / Empresa / Institución <span class="text-negative">*</span></label>
-              <q-input filled dense v-model="form.grupo" />
-            </div>
-          </div>
           </div>
         </div>
 
@@ -83,33 +85,33 @@
           <div class="row q-col-gutter-md">
             <div class="col-12 col-md-6 displayBlack">
               <div class="form-field">
-                 <label for="contactoEmergencia">Nombre del contacto de emergencia <span class="text-negative">*</span></label>
+                <label for="contactoEmergencia">Nombre del contacto de emergencia</label>
               <q-input
                 filled
                 dense
-                v-model="form.contactoEmergencia"
+                v-model="form.emergencyContactName"
                 :rules="[val => !!val || 'Campo requerido']"
               />
             </div>
             </div>
             <div class="col-12 col-md-6 displayBlack">
               <div class="form-field">
-                 <label for="telefonoEmergencia">Teléfono del contacto de emergencia <span class="text-negative">*</span></label>
+                <label for="telefonoEmergencia">Teléfono del contacto de emergencia</label>
               <q-input
                 filled
                 dense
-                v-model="form.telefonoEmergencia"
+                v-model="form.emergencyContactPhone"
                 :rules="[val => !!val || 'Campo requerido']"
               />
             </div>
             </div>
             <div class="col-12 col-md-6 displayBlack">
               <div class="form-field">
-                 <label for="eps">EPS a la que pertenece <span class="text-negative">*</span></label>
+                <label for="eps">EPS a la que pertenece</label>
               <q-input
                 filled
                 dense
-                v-model="form.eps"
+                v-model="form.healthEntity"
               />
             </div>
             </div>
@@ -122,11 +124,11 @@
           <div class="row q-col-gutter-md">
             <div class="col-12 col-md-6 displayBlack">
               <div class="form-field">
-                 <label for="sangre">Tipo de sangre <span class="text-negative">*</span></label>
+                <label for="sangre">Tipo de sangre</label>
               <q-select
                 filled
                 dense
-                v-model="form.sangre"
+                v-model="form.bloodType"
                 :options="['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-']"
                 :rules="[val => !!val || 'Campo requerido']"
               />
@@ -134,11 +136,12 @@
             </div>
             <div class="col-12 col-md-6 displayBlack">
               <div class="form-field">
-                 <label for="distancia">Distancia <span class="text-negative">*</span></label>
+                <label for="distancia">Distancia</label>
               <q-select
                 filled
                 dense
-                v-model="form.distancia"
+                label="Distancia"
+                v-model="form.distance"
                 :options="['5K', '10K', '21K']"
                 :rules="[val => !!val || 'Campo requerido']"
               />
@@ -146,11 +149,12 @@
             </div>
             <div class="col-12 col-md-6 displayBlack">
               <div class="form-field">
-                 <label for="genero">Género <span class="text-negative">*</span></label>
+                <label for="genero">Género</label>
               <q-select
                 filled
                 dense
-                v-model="form.genero"
+                v-model="form.gender"
+
                 :options="['Femenino', 'Masculino', 'Otro']"
                 :rules="[val => !!val || 'Campo requerido']"
               />
@@ -158,12 +162,12 @@
             </div>
             <div class="col-12 col-md-6 displayBlack">
               <div class="form-field">
-                 <label for="fechaNacimiento">Fecha de nacimiento <span class="text-negative">*</span></label>
+                <label for="fechaNacimiento">Fecha de nacimiento</label>
               <q-input
                 filled
                 dense
                 type="date"
-                v-model="form.fechaNacimiento"
+                v-model="form.birthDate"
                 :rules="[val => !!val || 'Campo requerido']"
               />
             </div>
@@ -175,7 +179,7 @@
                 filled
                 dense
                 type="number"
-                v-model="form.edad"
+                v-model="form.age"
                 :rules="[val => !!val || 'Campo requerido']"
               />
             </div>
@@ -186,7 +190,8 @@
               <q-select
                 filled
                 dense
-                v-model="form.talla"
+                v-model="form.shirtSize"
+
                 :options="['XS', 'S', 'M', 'L', 'XL', 'XXL']"
                 :rules="[val => !!val || 'Campo requerido']"
               />
@@ -198,7 +203,7 @@
               <q-select
                 filled
                 dense
-                v-model="form.categoria"
+                v-model="form.category"
                 :options="['Juvenil', 'Élite', 'Master', 'Senior']"
                 :rules="[val => !!val || 'Campo requerido']"
               />
@@ -207,10 +212,26 @@
           </div>
         </div>
 
+        <div class="col-12 col-md-6">
+              <q-btn
+                filled
+                :loading="loading2"
+                label="Comprobante"
+                @click="OpenSearch()"
+              />
+              <input
+                ref="fileInput"
+                type="file"
+                accept="image/*"
+                style="display: none"
+                @change="searchImage"
+              />
+            </div>  
+
         <!-- Botones -->
         <div class="row justify-end q-mt-xl">
           <q-btn label="Cancelar" flat class="q-mr-sm" color="grey" type="reset" />
-          <q-btn label="Inscribirme" color="green" type="submit" />
+          <q-btn label="Inscribirme" :loading="loading" color="green" type="submit" />
         </div>
       </q-form>
     </q-card>
@@ -218,39 +239,74 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, toRaw } from 'vue'
+import { postData } from '../services/apiClient.js'
+import { Notify } from 'quasar'
+const formRef = ref();
+const form = ref({});
+const fileInput = ref(null);
+const loading = ref(false);
+const loading2 = ref(false);
 
-const formRef = ref()
+ function OpenSearch(){
+  fileInput.value.click()
+  loading2.value= true;
+}
 
-const form = ref({
-  documento: '',
-  nombre: '',
-  telefono: '',
-  email: '',
-  resideColombia: true,
-  direccion: '',
-  grupo: '',
-  contactoEmergencia: '',
-  telefonoEmergencia: '',
-  eps: '',
-  sangre: '',
-  distancia: '',
-  genero: '',
-  fechaNacimiento: '',
-  edad: '',
-  talla: '',
-  categoria: ''
-})
+async function searchImage (event){
+ try {
+  const file = event.target.files[0]
+  if(file){
+    const formData = new FormData()
+    formData.append('image', file)
+    const response = await postData("/upload/images",formData)
+    form.value.proofImage = response.imageUrl
+    Notify.create({
+        type: 'positive',
+        message: 'Imagen cargada corretamente'
+      })
+  }
+ } catch (error) {
+  Notify.create({
+        type: 'negative',
+        message: 'Error al carga imagen , intente nuevamente'
+      })
+  console.log("image load failure",error);
+ }
+ finally{
+  loading2.value= false
+ }
 
-const onSubmit = () => {
-  formRef.value.validate().then(success => {
+}
+
+
+const onSubmit =async () => {
+  try {
+    loading.value = true
+    const success = await formRef.value.validate()
     if (success) {
       console.log('Formulario válido:', form.value)
-      // Aquí podrías enviar los datos a una API o backend
-    } else {
-      console.log('Hay errores en el formulario')
-    }
-  })
+      const response = await postData("/inscription",{
+        data:toRaw(form.value)
+      });
+      Notify.create({
+        type: 'positive',
+        message: 'Registro exitoso'
+      })
+      console.log(response.data);
+    }    
+    else {
+      throw new Error('Hay errores en el formulario')
+    }  } catch (error) {
+      Notify.create({
+        type: 'negative',
+        message: 'Registro fallido , intente nuevamente'
+      })
+   console.log(error); 
+  }
+  finally{
+    loading.value = false
+  }
 }
 
 const onReset = () => {

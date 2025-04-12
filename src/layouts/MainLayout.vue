@@ -8,8 +8,10 @@
           <q-avatar>
             <img src="/logo.jpg">
           </q-avatar>
-          <span class="text-h5 text-weight-bold">JIRETH SPORT</span>
+          <strong>  JIRETH SPORT</strong>
         </q-toolbar-title>
+        <q-space/>
+        <q-btn icon="logout" @click="CerrarSesion()">Cerrar Sesion</q-btn>
       </q-toolbar>
 
     </q-header>
@@ -29,3 +31,20 @@
 
   </q-layout>
 </template>
+
+<script setup>
+import { Notify } from 'quasar';
+import { useRouter } from 'vue-router';
+const router = useRouter()
+
+function CerrarSesion() {
+    localStorage.removeItem("store")
+    Notify.create({
+      type: 'positive',
+      message: 'Cierre de sesion exitoso'
+    })
+    router.replace("/login")
+}
+
+</script>
+
