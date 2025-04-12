@@ -1,7 +1,8 @@
 <template>
   <div class="bg-fixed q-pa-lg flex flex-center form-container">
     <q-card class="q-pa-md q-mx-auto full-width card-form" style="max-width: 800px;">
-      <q-img src="/RUN-TOUR.png" class="q-mb-md" />
+      <!-- Imagen de la carrera -->
+      <q-img src="/RUN-TOURRR.png" class="q-mb-md " style="border-radius: 0px; " />
 
       <!-- QForm para validación -->
       <q-form @submit="onSubmit" @reset="onReset" ref="formRef">
@@ -12,7 +13,7 @@
           <div class="row q-col-gutter-md">
             <div class="col-12 col-md-6 displayBlack ">
               <div class="form-field">
-                 <label for="documento">Número de documento</label>
+                 <label for="documento">Número de documento <span class="text-negative">*</span></label>
               <q-input
                 filled
                 dense
@@ -24,7 +25,7 @@
             </div>
             <div class="col-12 col-md-6 displayBlack">
               <div class="form-field">
-                 <label for="nombre">Nombres completos</label>
+                 <label for="nombre">Nombres completos <span class="text-negative">*</span></label>
               <q-input
                 filled
                 dense
@@ -35,7 +36,7 @@
             </div>
             <div class="col-12 col-md-6 displayBlack">
               <div class="form-field">
-                 <label for="telefono">Teléfono</label>
+                 <label for="telefono">Teléfono <span class="text-negative">*</span></label>
               <q-input
                 filled
                 dense
@@ -46,7 +47,7 @@
             </div>
             <div class="col-12 col-md-6 displayBlack">
               <div class="form-field">
-                 <label for="email">Correo electrónico</label>
+                 <label for="email">Correo electrónico <span class="text-negative">*</span></label>
               <q-input
                 filled
                 dense
@@ -63,13 +64,13 @@
             </div>
             <div class="col-12 col-md-6 displayBlack">
               <div class="form-field">
-                 <label for="direccion">Dirección</label>
+                 <label for="direccion">Dirección de residencia <span class="text-negative">*</span></label>
               <q-input filled dense v-model="form.direccion" />
             </div>
             </div>
             <div class="col-12 col-md-6 displayBlack">
               <div class="form-field">
-                 <label for="grupo">Grupo / Empresa / Institución</label>
+                 <label for="grupo">Grupo / Empresa / Institución <span class="text-negative">*</span></label>
               <q-input filled dense v-model="form.grupo" />
             </div>
           </div>
@@ -82,7 +83,7 @@
           <div class="row q-col-gutter-md">
             <div class="col-12 col-md-6 displayBlack">
               <div class="form-field">
-                 <label for="contactoEmergencia">Nombre del contacto de emergencia</label>
+                 <label for="contactoEmergencia">Nombre del contacto de emergencia <span class="text-negative">*</span></label>
               <q-input
                 filled
                 dense
@@ -93,7 +94,7 @@
             </div>
             <div class="col-12 col-md-6 displayBlack">
               <div class="form-field">
-                 <label for="telefonoEmergencia">Teléfono del contacto de emergencia</label>
+                 <label for="telefonoEmergencia">Teléfono del contacto de emergencia <span class="text-negative">*</span></label>
               <q-input
                 filled
                 dense
@@ -104,7 +105,7 @@
             </div>
             <div class="col-12 col-md-6 displayBlack">
               <div class="form-field">
-                 <label for="eps">EPS a la que pertenece</label>
+                 <label for="eps">EPS a la que pertenece <span class="text-negative">*</span></label>
               <q-input
                 filled
                 dense
@@ -121,7 +122,7 @@
           <div class="row q-col-gutter-md">
             <div class="col-12 col-md-6 displayBlack">
               <div class="form-field">
-                 <label for="sangre">Tipo de sangre</label>
+                 <label for="sangre">Tipo de sangre <span class="text-negative">*</span></label>
               <q-select
                 filled
                 dense
@@ -133,7 +134,7 @@
             </div>
             <div class="col-12 col-md-6 displayBlack">
               <div class="form-field">
-                 <label for="distancia">Distancia</label>
+                 <label for="distancia">Distancia <span class="text-negative">*</span></label>
               <q-select
                 filled
                 dense
@@ -145,7 +146,7 @@
             </div>
             <div class="col-12 col-md-6 displayBlack">
               <div class="form-field">
-                 <label for="genero">Género</label>
+                 <label for="genero">Género <span class="text-negative">*</span></label>
               <q-select
                 filled
                 dense
@@ -157,7 +158,7 @@
             </div>
             <div class="col-12 col-md-6 displayBlack">
               <div class="form-field">
-                 <label for="fechaNacimiento">Fecha de nacimiento</label>
+                 <label for="fechaNacimiento">Fecha de nacimiento <span class="text-negative">*</span></label>
               <q-input
                 filled
                 dense
@@ -167,14 +168,17 @@
               />
             </div>
             </div>
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-6 displayBlack">
+              <div class="form-field">
+                 <label for="edad">Edad <span class="text-negative">*</span></label>
               <q-input
                 filled
-                label="Edad"
+                dense
                 type="number"
                 v-model="form.edad"
                 :rules="[val => !!val || 'Campo requerido']"
               />
+            </div>
             </div>
             <div class="col-12 col-md-6 displayBlack">
               <div class="form-field">
@@ -190,7 +194,7 @@
             </div>
             <div class="col-12 col-md-6 displayBlack">
               <div class="form-field">
-                 <label for="categoria">Categoría</label>
+                 <label for="categoria">Categoría  <span class="text-negative">*</span></label>
               <q-select
                 filled
                 dense
@@ -269,16 +273,15 @@ const onReset = () => {
 .form-container {
   position: relative;
   min-height: 100vh;
-  background-image: url("/fondooo.png");
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
-  background-attachment: fixed;
 
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
   display: flex;
-  align-items: center;
   justify-content: center;
-  padding: 2rem;
+  align-items: center;
+  padding: 0px 20px 20px;
+  margin: 0;
 
 
 
@@ -290,11 +293,6 @@ const onReset = () => {
   position: relative;
   z-index: 1;
 }
-
-.displayBlack{
-   display: block;
-}
-
 
 h4 {
   background-image: url("/banner.png");
@@ -309,6 +307,9 @@ form label{
   font-size: 15px;
   font-weight: 400;
   color: rgb(103, 117, 124);
+  display: block;
   
 }
+
+
 </style>

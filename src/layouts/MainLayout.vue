@@ -2,21 +2,16 @@
 <template>
   <q-layout view="hHh lpR fff">
 
-    <q-header elevated class="bg-primary text-white" height-hint="98" v-show="$route.path !== '/' && $route.path !== '/' && $route.path !== '/login' && $route.path !== '/form'">
+    <q-header elevated class="bg-dark text-white" height-hint="98" v-show="$route.path !== '/' && $route.path !== '/' && $route.path !== '/login' && $route.path !== '/form'">
       <q-toolbar>
         <q-toolbar-title>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
+            <img src="/logo.jpg">
           </q-avatar>
-          Title
+          <span class="text-h5 text-weight-bold">JIRETH SPORT</span>
         </q-toolbar-title>
       </q-toolbar>
 
-      <q-tabs align="left">
-        <q-route-tab to="/page1" label="Page One" />
-        <q-route-tab to="/page2" label="Page Two" />
-        <q-route-tab to="/page3" label="Page Three" />
-      </q-tabs>
     </q-header>
 
     <q-page-container>
