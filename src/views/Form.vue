@@ -14,15 +14,23 @@
               <q-input
                 filled
                 label="Número de documento"
-                v-model="form.documento"
+                v-model="form.documentNumber"
                 :rules="[val => !!val || 'Campo requerido']"
               />
             </div>
             <div class="col-12 col-md-6">
               <q-input
                 filled
-                label="Nombres completos"
-                v-model="form.nombre"
+                label="Primer nombre"
+                v-model="form.firstName"
+                :rules="[val => !!val || 'Campo requerido']"
+              />
+            </div>
+            <div class="col-12 col-md-6">
+              <q-input
+                filled
+                label="Segundo nombre"
+                v-model="form.lastName"
                 :rules="[val => !!val || 'Campo requerido']"
               />
             </div>
@@ -30,7 +38,7 @@
               <q-input
                 filled
                 label="Teléfono"
-                v-model="form.telefono"
+                v-model="form.phone"
                 :rules="[val => !!val || 'Campo requerido']"
               />
             </div>
@@ -46,13 +54,13 @@
               />
             </div>
             <div class="col-12">
-              <q-toggle v-model="form.resideColombia" label="¿Reside en Colombia?" color="green" />
+              <q-toggle v-model="form.livesInColombia" label="¿Reside en Colombia?" color="green" />
             </div>
             <div class="col-12 col-md-6">
-              <q-input filled label="Dirección" v-model="form.direccion" />
+              <q-input filled label="Dirección" v-model="form.address" />
             </div>
             <div class="col-12 col-md-6">
-              <q-input filled label="Grupo / Empresa / Institución" v-model="form.grupo" />
+              <q-input filled label="Grupo / Empresa / Institución" v-model="form.organization" />
             </div>
           </div>
         </div>
@@ -65,7 +73,7 @@
               <q-input
                 filled
                 label="Nombre del contacto de emergencia"
-                v-model="form.contactoEmergencia"
+                v-model="form.emergencyContactName"
                 :rules="[val => !!val || 'Campo requerido']"
               />
             </div>
@@ -73,7 +81,7 @@
               <q-input
                 filled
                 label="Teléfono del contacto de emergencia"
-                v-model="form.telefonoEmergencia"
+                v-model="form.emergencyContactPhone"
                 :rules="[val => !!val || 'Campo requerido']"
               />
             </div>
@@ -81,7 +89,7 @@
               <q-input
                 filled
                 label="EPS a la que pertenece"
-                v-model="form.eps"
+                v-model="form.healthEntity"
               />
             </div>
           </div>
@@ -95,7 +103,7 @@
               <q-select
                 filled
                 label="Tipo de sangre"
-                v-model="form.sangre"
+                v-model="form.bloodType"
                 :options="['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-']"
                 :rules="[val => !!val || 'Campo requerido']"
               />
@@ -104,7 +112,7 @@
               <q-select
                 filled
                 label="Distancia"
-                v-model="form.distancia"
+                v-model="form.distance"
                 :options="['5K', '10K', '21K']"
                 :rules="[val => !!val || 'Campo requerido']"
               />
@@ -113,7 +121,7 @@
               <q-select
                 filled
                 label="Género"
-                v-model="form.genero"
+                v-model="form.gender"
                 :options="['Femenino', 'Masculino', 'Otro']"
                 :rules="[val => !!val || 'Campo requerido']"
               />
@@ -123,7 +131,7 @@
                 filled
                 label="Fecha de nacimiento"
                 type="date"
-                v-model="form.fechaNacimiento"
+                v-model="form.birthDate"
                 :rules="[val => !!val || 'Campo requerido']"
               />
             </div>
@@ -132,7 +140,7 @@
                 filled
                 label="Edad"
                 type="number"
-                v-model="form.edad"
+                v-model="form.age"
                 :rules="[val => !!val || 'Campo requerido']"
               />
             </div>
@@ -140,7 +148,7 @@
               <q-select
                 filled
                 label="Talla de camiseta"
-                v-model="form.talla"
+                v-model="form.shirtSize"
                 :options="['XS', 'S', 'M', 'L', 'XL', 'XXL']"
                 :rules="[val => !!val || 'Campo requerido']"
               />
@@ -149,13 +157,28 @@
               <q-select
                 filled
                 label="Categoría"
-                v-model="form.categoria"
+                v-model="form.category"
                 :options="['Juvenil', 'Élite', 'Master', 'Senior']"
                 :rules="[val => !!val || 'Campo requerido']"
               />
             </div>
           </div>
         </div>
+
+        <div class="col-12 col-md-6">
+              <q-btn
+                filled
+                label="Comprobante"
+                @click="OpenSearch()"
+              />
+              <input
+                ref="fileInput"
+                type="file"
+                accept="image/*"
+                style="display: none"
+                @change="searchImage"
+              />
+            </div>  
 
         <!-- Botones -->
         <div class="row justify-end q-mt-xl">
@@ -168,39 +191,64 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-
+import { ref, toRaw } from 'vue'
+import { postData } from '../services/apiClient.js'
+import { Notify } from 'quasar'
 const formRef = ref()
+const form = ref({})
+const fileInput = ref(null)
 
-const form = ref({
-  documento: '',
-  nombre: '',
-  telefono: '',
-  email: '',
-  resideColombia: true,
-  direccion: '',
-  grupo: '',
-  contactoEmergencia: '',
-  telefonoEmergencia: '',
-  eps: '',
-  sangre: '',
-  distancia: '',
-  genero: '',
-  fechaNacimiento: '',
-  edad: '',
-  talla: '',
-  categoria: ''
-})
+ function OpenSearch(){
+  fileInput.value.click()
+}
 
-const onSubmit = () => {
-  formRef.value.validate().then(success => {
+async function searchImage (event){
+ try {
+  const file = event.target.files[0]
+  if(file){
+    const formData = new FormData()
+    formData.append('image', file)
+    const response = await postData("/upload/images",formData)
+    form.value.proofImage = response.imageUrl
+    Notify.create({
+        type: 'positive',
+        message: 'Imagen cargada corretamente'
+      })
+  }
+ } catch (error) {
+  Notify.create({
+        type: 'negative',
+        message: 'Error al carga imagen , intente nuevamente'
+      })
+  console.log("image load failure",error);
+ }
+
+}
+
+
+const onSubmit =async () => {
+  try {
+    const success = await formRef.value.validate()
     if (success) {
       console.log('Formulario válido:', form.value)
-      // Aquí podrías enviar los datos a una API o backend
-    } else {
-      console.log('Hay errores en el formulario')
-    }
-  })
+      const response = await postData("/inscription",{
+        data:toRaw(form.value)
+      });
+      Notify.create({
+        type: 'positive',
+        message: 'Registro exitoso'
+      })
+      console.log(response.data);
+    }    
+    else {
+      throw new Error('Hay errores en el formulario')
+    }  } catch (error) {
+      Notify.create({
+        type: 'negative',
+        message: 'Registro fallido , intente nuevamente'
+      })
+   console.log(error); 
+  }
 }
 
 const onReset = () => {
