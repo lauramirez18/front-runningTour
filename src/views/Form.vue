@@ -1,7 +1,8 @@
 <template>
   <div class="bg-fixed q-pa-lg flex flex-center form-container">
     <q-card class="q-pa-md q-mx-auto full-width card-form" style="max-width: 800px;">
-      <q-img src="/RUN-TOUR.png" class="q-mb-md" />
+      <!-- Imagen de la carrera -->
+      <q-img src="/RUN-TOURRR.png" class="q-mb-md " style="border-radius: 0px; " />
 
       <!-- QForm para validación -->
       <q-form @submit="onSubmit" @reset="onReset" ref="formRef">
@@ -171,14 +172,17 @@
               />
             </div>
             </div>
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-6 displayBlack">
+              <div class="form-field">
+                 <label for="edad">Edad <span class="text-negative">*</span></label>
               <q-input
                 filled
-                label="Edad"
+                dense
                 type="number"
                 v-model="form.age"
                 :rules="[val => !!val || 'Campo requerido']"
               />
+            </div>
             </div>
             <div class="col-12 col-md-6 displayBlack">
               <div class="form-field">
@@ -195,7 +199,7 @@
             </div>
             <div class="col-12 col-md-6 displayBlack">
               <div class="form-field">
-                 <label for="categoria">Categoría</label>
+                 <label for="categoria">Categoría  <span class="text-negative">*</span></label>
               <q-select
                 filled
                 dense
@@ -325,16 +329,15 @@ const onReset = () => {
 .form-container {
   position: relative;
   min-height: 100vh;
-  background-image: url("/fondooo.png");
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
-  background-attachment: fixed;
 
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
   display: flex;
-  align-items: center;
   justify-content: center;
-  padding: 2rem;
+  align-items: center;
+  padding: 0px 20px 20px;
+  margin: 0;
 
 
 
@@ -346,11 +349,6 @@ const onReset = () => {
   position: relative;
   z-index: 1;
 }
-
-.displayBlack{
-   display: block;
-}
-
 
 h4 {
   background-image: url("/banner.png");
@@ -365,6 +363,9 @@ form label{
   font-size: 15px;
   font-weight: 400;
   color: rgb(103, 117, 124);
+  display: block;
   
 }
+
+
 </style>
