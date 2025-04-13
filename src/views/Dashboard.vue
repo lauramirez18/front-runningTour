@@ -8,14 +8,14 @@
         color="warning"
         icon="hourglass_empty"
         label="pendientes"
-        @click=""
+        @click="data('earrings')"
         class="q-mx-sm"
       />
       <q-btn 
         color="positive"
         icon="check"
         label="Aprobadas"
-        @click=""
+        @click="data('approved')"
         class="q-mx-sm"
       />
     
@@ -23,13 +23,11 @@
         color="negative"
         icon="close"
         label="Rechazadas"
-        @click=""
+        @click="data('rejected')"
         class="q-mx-sm"
       />
       
-      
-    
-   
+
   </q-card-section>
         <q-card class="q-pa-md shadow-2xl rounded-xl bg-white">
         
@@ -76,7 +74,7 @@
                   color="green"
                   icon="check"
                   class="q-ml-sm"
-                  @click="aprobar(props.row)"
+                  @click="update(props.row._id,'1')"
                 />
                 <q-btn
                   size="sm"
@@ -85,7 +83,7 @@
                   color="red"
                   icon="close"
                   class="q-ml-sm"
-                  @click="rechazar(props.row)"
+                  @click="update(props.row._id,'2')"
                 />
               </q-td>
             </template>
@@ -119,6 +117,7 @@
   
   <script setup>
   import { ref, onMounted } from 'vue'
+  import { getData, putData } from '../services/apiClient.js'
  
   
   const columns = [
@@ -126,7 +125,7 @@
     { name: 'firstName', label: 'Nombres', field: 'firstName', align: 'left' },
     { name: 'lastName', label: 'Apellidos', field: 'lastName', align: 'left' },
     { name: 'phone', label: 'Teléfono', field: 'phone', align: 'left' },
-    { name: 'gmail', label: 'Correo', field: 'gmail', align: 'left' },
+    { name: 'gmail', label: 'Correo', field: 'email', align: 'left' },
     { name: 'actions', label: 'Acciones', field: 'actions', align: 'center' }
   ]
   
@@ -139,25 +138,35 @@
     datosSeleccionados.value = row
     mostrarModal.value = true
   }
+
   
-  const aprobar = (row) => {
-    console.log('Aprobado:', row)
-    // lógica para actualizar estado
-  }
-  
-  const rechazar = (row) => {
-    console.log('Rechazado:', row)
-    // lógica para actualizar estado
-  }
-  
-  // 🟢 Llamada al backend para cargar las inscripciones
-  onMounted(async () => {
+  async function update(id,state) {
     try {
-      const response = await axios.get('http://tu-backend.com/api/inscripciones')
+      const convertState = Number(state)
+      const response = await putData(`/inscription/update/${id}`,{
+        data:{state:state}
+      })
+      console.log(response.data);
+      const states={ 0:"earrings",1:"approved", 2:"rejected" }
+      data(states[convertState])
+      console.log("parametro", states[convertState]);
+    } catch (error) {
+      console.error('Error actualizando inscripciones:', error)
+    }
+  }
+
+
+  async function data(state) {
+    try {
+      const response = await getData(`/inscription/data/${state}`)
       rows.value = response.data
     } catch (error) {
       console.error('Error cargando inscripciones:', error)
     }
+  }
+  
+  onMounted(()=>{
+    data('earrings')
   })
   </script>
   

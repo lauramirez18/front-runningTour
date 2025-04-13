@@ -218,8 +218,8 @@ const onSubmit = async () => {
     const success = await formRef.value.validate()
     if (success) {
       console.log('Formulario válido:', form.value)
-      const response = await postData("/inscription", {
-        data: toRaw(form.value)
+      const response = await postData("/inscription/register",{
+        data:toRaw(form.value)
       });
       Notify.create({
         type: 'positive',
