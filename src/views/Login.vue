@@ -38,7 +38,7 @@
                 label="Usuario"
                 outlined
                 dense
-                color="black"
+               
                 :rules="[val => !!val || 'El usuario es obligatorio']"
                 :prefix="`👤`"
                 class="input-field align-center"
@@ -50,7 +50,7 @@
                 :type="showPassword ? 'text' : 'password'"
                 outlined
                 dense
-                color="black"
+               
                 :rules="[val => !!val || 'La contraseña es obligatoria']"
                 :prefix="`🔒`"
                 class="input-field"
@@ -59,6 +59,7 @@
                   <q-icon
                     :name="showPassword ? 'visibility' : 'visibility_off'"
                     class="cursor-pointer pulse-icon"
+                    style="color: black;"
                     @click="showPassword = !showPassword"
                   />
                 </template>
@@ -130,29 +131,13 @@
   </script>
   
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   
 <style scoped>
+*{
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  color: white;
+}
 
   /*.bg-login {
 
@@ -162,14 +147,15 @@
   */  
 
   .card-container {
-    width: 95%;
+    width: 100%;
     max-width: 400px;
-    box-shadow: 0 0  15px rgba(255, 252, 67, 0.5); /* Verde lima con difuminado */
+    box-shadow: 0 0  10px rgb(255, 67, 67); /* Verde lima con difuminado */
     border: none;
     backdrop-filter: blur(8px);
     background: rgba(255, 255, 255, 0.95);
-    padding: 16px;
+    padding: 50px 16px;
     border-radius: 12px;
+    background-color: black;
   }
   
   .form-wrapper {
@@ -186,6 +172,8 @@
     width: 100%;
     max-width: 80%;
     padding: 0 4px;
+    background-color: white;
+    
   }
   
 
