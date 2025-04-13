@@ -7,7 +7,7 @@
         color="warning"
         icon="hourglass_empty"
         label="pendientes"
-        @click="data('earrings')"
+        @click="data('earrings') ; btnStatus = 'earrings'"
         class="q-mx-sm"
         style=" font-weight: bold; "
       />
@@ -15,7 +15,7 @@
         color="positive"
         icon="check"
         label="Aprobadas"
-        @click="data('approved')"
+        @click="data('approved') ; btnStatus = 'approved'"
         class="q-mx-sm"
         style=" font-weight: bold; "
       />
@@ -24,7 +24,7 @@
         color="negative"
         icon="close"
         label="Rechazadas"
-        @click="data('rejected')"
+        @click="data('rejected') ; btnStatus = 'rejected'"
         class="q-mx-sm"
         style=" font-weight: bold; "
       />
@@ -143,6 +143,7 @@
   
   const mostrarModal = ref(false)
   const datosSeleccionados = ref({})
+  const btnStatus = ref('earrings')
   const tableTittle = ref('')
   
   const verDetalles = (row) => {
@@ -150,17 +151,24 @@
     mostrarModal.value = true
   }
 
+  async function fullInscriptions() {
+    try {
+      const response = await getData("/inscription/full")
+      console.log("data de todas las inscripciones mas conteo", response.data);
+    } catch (error) {
+      console.log("error trayendo toda la info de inscripciones");
+    }
+  }
+
   
   async function update(id,state) {
     try {
-      const convertState = Number(state)
       const response = await putData(`/inscription/update/${id}`,{
         data:{state:state}
       })
       console.log(response.data);
-      const states={ 0:"earrings",1:"approved", 2:"rejected" }
-      data(states[convertState])
-      console.log("parametro", states[convertState]);
+      data(btnStatus.value);
+      console.log("btn status" , btnStatus.value);
     } catch (error) {
       console.error('Error actualizando inscripciones:', error)
     }
@@ -171,6 +179,7 @@
     try {
       const response = await getData(`/inscription/data/${state}`)
       rows.value = response.data
+        console.log(`DATA DE ${state}`, rows.value.length);
 
       const titles = {
       earrings: ' ⌛Panel de Inscripciones pendientes',
@@ -186,7 +195,8 @@
   }
   
   onMounted(()=>{
-    data('earrings')
+    data('earrings'),
+    fullInscriptions()
   })
   </script>
   
