@@ -174,7 +174,7 @@
             </div>
             <div class="col-12 col-md-6 displayBlack">
               <div class="form-field">
-                 <label for="edad">Edad <span class="text-negative">*</span></label>
+                <label for="edad">Edad <span class="text-negative">*</span></label>
               <q-input
                 filled
                 dense
@@ -286,7 +286,7 @@ const onSubmit =async () => {
     const success = await formRef.value.validate()
     if (success) {
       console.log('Formulario válido:', form.value)
-      const response = await postData("/inscription",{
+      const response = await postData("/inscription/register",{
         data:toRaw(form.value)
       });
       Notify.create({
