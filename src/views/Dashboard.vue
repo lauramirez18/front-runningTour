@@ -2,14 +2,14 @@
     <div class="q-pa-lg dashboard-container">
         <!-- Sección de botones encima de factura-container -->
     <q-card-section class="q-pa-md flex justify-center ">
-      
-     
+
       <q-btn 
         color="warning"
         icon="hourglass_empty"
         label="pendientes"
         @click="data('earrings') ; btnStatus = 'earrings'"
         class="q-mx-sm"
+        style=" font-weight: bold; "
       />
       <q-btn 
         color="positive"
@@ -17,6 +17,7 @@
         label="Aprobadas"
         @click="data('approved') ; btnStatus = 'approved'"
         class="q-mx-sm"
+        style=" font-weight: bold; "
       />
     
       <q-btn 
@@ -25,14 +26,15 @@
         label="Rechazadas"
         @click="data('rejected') ; btnStatus = 'rejected'"
         class="q-mx-sm"
+        style=" font-weight: bold; "
       />
       
 
   </q-card-section>
         <q-card class="q-pa-md shadow-2xl rounded-xl bg-white">
         
-        <q-card-section class="row items-center q-pb-none">
-          <div class="text-h5 text-bold text-primary">Panel de Inscripciones</div>
+        <q-card-section class="row items-center  q-pb-none">
+          <div class="text-h5 text-bold text-secondary text-center ">{{ tableTittle }}</div>
           <q-space />
         </q-card-section>
   
@@ -50,11 +52,16 @@
             <!-- Encabezado personalizado -->
             <template v-slot:header="props">
               <q-tr class="bg-black text-white text-bold">
-                <q-th v-for="col in props.cols" :key="col.name" :props="props">
+                <q-th v-for="col in props.cols" :key="col.name" :props="props" class="header-table">
                   {{ col.label }}
                 </q-th>
               </q-tr>
             </template>
+            <template v-slot:body-cell-fullName="props">
+  <q-td :props="props">
+    {{ props.row.firstName }} {{ props.row.lastName }}
+  </q-td>
+</template>
   
             <!-- Acciones -->
             <template v-slot:body-cell-actions="props">
@@ -63,10 +70,11 @@
                   size="sm"
                   flat
                   round
-                  color="primary"
+                  color="info"
                   icon="visibility"
-                  @click="verDetalles(props.row)"
-                />
+                  @click="verDetalles(props.row)">
+                  <q-tooltip>Ver detalles</q-tooltip>
+                </q-btn>
                 <q-btn
                   size="sm"
                   flat
@@ -74,8 +82,10 @@
                   color="green"
                   icon="check"
                   class="q-ml-sm"
-                  @click="update(props.row._id,'1')"
-                />
+                  @click="update(props.row._id,'1')">
+                  <q-tooltip>Aprobar</q-tooltip>
+                </q-btn>
+
                 <q-btn
                   size="sm"
                   flat
@@ -83,8 +93,9 @@
                   color="red"
                   icon="close"
                   class="q-ml-sm"
-                  @click="update(props.row._id,'2')"
-                />
+                  @click="update(props.row._id,'2')">
+                  <q-tooltip>Rechazar</q-tooltip>
+                </q-btn>
               </q-td>
             </template>
           </q-table>
@@ -93,7 +104,7 @@
   
       <!-- Modal de Detalles -->
       <q-dialog v-model="mostrarModal">
-        <q-card class="bg-dark text-white" style="min-width: 400px; max-width: 90vw;">
+        <q-card class="" style="min-width: 400px; max-width: 90vw;">
           <q-card-section class="bg-green text-black flex items-center">
             <div class="text-h6 text-bold">Detalles del Participante</div>
             <q-space />
@@ -122,10 +133,9 @@
   
   const columns = [
     { name: 'documentNumber', label: 'Documento', field: 'documentNumber', align: 'left' },
-    { name: 'firstName', label: 'Nombres', field: 'firstName', align: 'left' },
-    { name: 'lastName', label: 'Apellidos', field: 'lastName', align: 'left' },
-    { name: 'phone', label: 'Teléfono', field: 'phone', align: 'left' },
-    { name: 'gmail', label: 'Correo', field: 'email', align: 'left' },
+    { name: 'fullName', label: 'Nombres', field: 'firstName', align: 'center' },
+    { name: 'phone', label: 'Teléfono', field: 'phone', align: 'center' },
+    { name: 'gmail', label: 'Correo', field: 'email', align: 'center' },
     { name: 'actions', label: 'Acciones', field: 'actions', align: 'center' }
   ]
   
@@ -134,6 +144,7 @@
   const mostrarModal = ref(false)
   const datosSeleccionados = ref({})
   const btnStatus = ref('earrings')
+  const tableTittle = ref('')
   
   const verDetalles = (row) => {
     datosSeleccionados.value = row
@@ -169,6 +180,15 @@
       const response = await getData(`/inscription/data/${state}`)
       rows.value = response.data
         console.log(`DATA DE ${state}`, rows.value.length);
+
+      const titles = {
+      earrings: ' ⌛Panel de Inscripciones pendientes',
+      approved: ' ✅Panel de Inscripciones aprobadas',
+      rejected: ' ❌Panel de Inscripciones rechazadas'
+
+    }
+
+      tableTittle.value = titles[state] || 'Panel de Inscripciones pendientes'
     } catch (error) {
       console.error('Error cargando inscripciones:', error)
     }
@@ -181,11 +201,17 @@
   </script>
   
   <style scoped>
+  
+
   .dashboard-container {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
    
+  }
+
+  .header-table {
+    font-weight: bold;
   }
   .custom-table {
     border-radius: 12px;
@@ -194,6 +220,7 @@
   .q-table thead {
     font-size: 15px;
     text-transform: uppercase;
+    
   }
   .q-table tbody tr:hover {
     background-color: #e0f2e9;
