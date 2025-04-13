@@ -1,5 +1,5 @@
 <template>
-    <q-page class="bg-login flex flex-center bg-grey-3">
+    <q-page class="bg-login flex flex-center ">
       <q-card class="q-pa-lg shadow-4 card-container">
   
         <!-- Encabezado -->
@@ -139,12 +139,14 @@
   color: white;
 }
 
-  /*.bg-login {
+  .bg-login {
 
-     background: url("/fondo.jpg") center center / cover no-repeat; 
+     background: url("/fond.jpg");
+  
+  background-size: 200px 150px;
 
 }
-  */  
+   
 
   .card-container {
     width: 100%;

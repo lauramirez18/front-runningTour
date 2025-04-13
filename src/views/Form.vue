@@ -58,8 +58,8 @@
               </div>
               <q-input filled dense v-model="form.address" />
             </div>
-            <div class="col-12 col-md-6">
-              <q-toggle v-model="form.livesInColombia" label="¿Reside en Colombia?" color="green" />
+            <div class="col-12 col-md-6 residence">
+              <q-toggle v-model="form.livesInColombia" label="¿Reside en Colombia?" color="primary" class="q-mt-sm" style="margin-top: 10px;"/>
             </div>
           </div>
         </div>
@@ -277,11 +277,17 @@ const onReset = () => {
 }
 
 h4 {
-  background-image: url("/banner.png");
+  background-image: url("/fondoo.png");
   background-repeat: no-repeat;
   background-size: cover;
   color: #fffdfd;
-  padding: 10px;
+  padding: 20px;
+  text-align: center;
+}
+
+.residence{
+  display: block;
+  margin-top: 10px;
 }
 
 form label {
