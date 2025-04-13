@@ -6,30 +6,28 @@
      
       <q-btn 
         color="warning"
-        icon="pending"
+        icon="hourglass_empty"
         label="pendientes"
         @click="data('earrings')"
         class="q-mx-sm"
       />
-      
+      <q-btn 
+        color="positive"
+        icon="check"
+        label="Aprobadas"
+        @click="data('approved')"
+        class="q-mx-sm"
+      />
     
       <q-btn 
         color="negative"
-        icon="dissatisfied"
+        icon="close"
         label="Rechazadas"
         @click="data('rejected')"
         class="q-mx-sm"
       />
       
-      
-      <q-btn 
-        color="positive"
-        icon="check"
-        label="Aprovadas"
-        @click="data('approved')"
-        class="q-mx-sm"
-      />
-   
+
   </q-card-section>
         <q-card class="q-pa-md shadow-2xl rounded-xl bg-white">
         

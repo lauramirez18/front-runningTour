@@ -11,7 +11,10 @@
           <strong>  JIRETH SPORT</strong>
         </q-toolbar-title>
         <q-space/>
-        <q-btn icon="logout" @click="CerrarSesion()">Cerrar Sesion</q-btn>
+        <q-btn icon="logout" @click="CerrarSesion()">
+           <q-tooltip>Cerrar Sesion</q-tooltip>
+        </q-btn>
+       
       </q-toolbar>
 
     </q-header>
@@ -20,11 +23,11 @@
       <router-view />
     </q-page-container>
 
-    <q-footer elevated class="bg-black-8 text-white">
+    <q-footer elevated class="bg-dark text-white">
       <q-toolbar>
         <q-toolbar-title>
           
-          <div>Title</div>
+          <div></div>
         </q-toolbar-title>
       </q-toolbar>
     </q-footer>
