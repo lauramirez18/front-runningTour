@@ -42,7 +42,7 @@
           <q-table
             :rows="rows"
             :columns="columns"
-            row-key="documentNumber"
+            row-key="_id"
             flat
             bordered
             :pagination="{ rowsPerPage: 10 }"
@@ -81,8 +81,10 @@
                   round
                   color="green"
                   icon="check"
+                :loading="loadingMap.accepted[props.row._id] === true"
+                  v-show="props.row.state == 2 || props.row.state == 0"
                   class="q-ml-sm"
-                  @click="update(props.row._id,'1')">
+                  @click="update(props.row._id,'1') ; sendEmail(props.row.email, 'accepted','Confirmacion inscripcion',props.row._id)">
                   <q-tooltip>Aprobar</q-tooltip>
                 </q-btn>
 
@@ -92,8 +94,10 @@
                   round
                   color="red"
                   icon="close"
+                      v-show="props.row.state == 1 || props.row.state == 0"
+                :loading="loadingMap.refused[props.row._id] === true"
                   class="q-ml-sm"
-                  @click="update(props.row._id,'2')">
+                  @click="update(props.row._id,'2'); sendEmail(props.row.email,'refused','Rechazo inscripcion',props.row._id)">
                   <q-tooltip>Rechazar</q-tooltip>
                 </q-btn>
               </q-td>
@@ -298,7 +302,8 @@
   
   <script setup>
   import { ref, onMounted } from 'vue'
-  import { getData, putData } from '../services/apiClient.js'
+  import { getData, postData, putData } from '../services/apiClient.js'
+  import { Notify } from 'quasar'
  
   
   const columns = [
@@ -309,7 +314,11 @@
     { name: 'actions', label: 'Acciones', field: 'actions', align: 'center' }
   ]
   
-  const rows = ref([]) //  datos del backend
+  const rows = ref([]) // ← Aquí se cargarán los datos desde tu backend
+  const loadingMap = ref({
+    accepted:{},
+    refused:{}
+  })
   
   const mostrarModal = ref(false)
   const datosSeleccionados = ref({})
@@ -321,6 +330,31 @@
   const verDetalles = (row) => {
     datosSeleccionados.value = row
     mostrarModal.value = true
+  }
+
+  async function sendEmail(to,status, title, rowId){
+    try {
+      loadingMap.value[status][rowId] = true
+      const response = await postData("/email/sendEmail",{
+        to:to,
+        subject:title,
+        status:status
+      })
+      if(status === 'accepted'){
+      alert('positive',`Se a enviado un correo de ${title} a ${to}`)
+      }
+      else{
+      alert('negative',`Se a enviado un correo de ${title} a ${to}`)
+      }
+      console.log(response.message);
+    console.log("alerta tipo", status);
+
+    } catch (error) {
+      console.log("error al enviar email");
+    }
+    finally{
+      loadingMap.value[status][rowId] = false
+    }
   }
 
   async function fullInscriptions() {
@@ -346,6 +380,12 @@
     }
   }
 
+  function alert (type,message){
+    Notify.create({
+        type:type,
+        message:message
+      })
+  }
 
   async function data(state) {
     try {
