@@ -193,6 +193,7 @@ async function searchImage(event) {
       formData.append('image', file)
       const response = await postData("/upload/images", formData)
       form.value.proofImage = response.imageUrl
+      form.value.imagePublicId = response.public_id
       Notify.create({
         type: 'positive',
         message: 'Imagen cargada corretamente'

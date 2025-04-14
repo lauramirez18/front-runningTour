@@ -2,6 +2,7 @@ import axios from "axios";
 
 const clientFactus = axios.create({
     baseURL: "http://localhost:3999/runTour",
+/*     baseURL: "https://runtour.onrender.com/runTour" */
 });
 
 clientFactus.interceptors.request.use(
