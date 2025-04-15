@@ -66,6 +66,7 @@
               </q-input>
               <q-card-actions align="center" class="q-gutter-sm q-mt-sm">
                 <q-btn
+                :loading="loading"
                 label="INICIAR SESIÓN"
                 unelevated
                 type="submit"
@@ -92,6 +93,7 @@
   const router = useRouter()
   
   const mostrarLogin = ref(false)
+  const loading = ref(false);
   const user = ref('')
   const password = ref('')
   const showPassword = ref(false)
@@ -102,6 +104,7 @@
   
   const iniciarSesion =async () => {
    try {
+    loading.value = true
     if (!user.value || !password.value) {
       Notify.create({
         type: 'negative',
@@ -126,6 +129,9 @@
       message: 'Inicio de sesión fallido'
     })
     console.log(error);
+   }
+   finally{
+    loading.value = false
    }
   }
   </script>

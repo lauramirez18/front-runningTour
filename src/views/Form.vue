@@ -59,7 +59,8 @@
               <q-input filled dense v-model="form.address" />
             </div>
             <div class="col-12 col-md-6 residence">
-              <q-toggle v-model="form.livesInColombia" label="¿Reside en Colombia?" color="primary" class="q-mt-sm" style="margin-top: 10px;"/>
+              <q-toggle v-model="form.livesInColombia" label="¿Reside en Colombia?" color="primary" class="q-mt-sm"
+                style="margin-top: 10px;" />
             </div>
           </div>
         </div>
@@ -164,6 +165,7 @@
           dense
           v-model="form.shirt"
           :options="['Si', 'No']"
+          @update:model-value="total"
           :rules="[val => !!val || 'Campo requerido']"
         />
       </div>
@@ -190,22 +192,22 @@
   <!-- Columna de etiquetas -->
   <div class="column items-end text-right">
     <div class="text-bold text-info">Valor Inscripción</div>
-    <div class="text-bold text-info">Valor Adicional Camisa</div>
+    <div class="text-bold text-info" v-show="form.shirt === 'Si'">Valor Adicional Camisa</div>
     <div class="text-bold text-secondary text-h6">Valor Total</div>
   </div>
 
   <!-- Columna de separadores, opcional -->
   <div class="column items-center text-bold">
     <div>➡️</div>
-    <div>➡️</div>
+    <div v-show="form.shirt === 'Si'">➡️</div>
     <div style="margin-top: 5px;">➡️</div>
   </div>
 
   <!-- Columna de valores -->
   <div class="column items-end text-bold ">
     <div class="text-info">{{ formatPrice(priceInscription) }}</div>
-    <div class="text-info">{{ formatPrice(priceShirt) }}</div>
-    <div class="text-secondary" style="margin-top:5px ;">{{ formatPrice(priceInscription + priceShirt) }}</div>
+    <div class="text-info" v-show="form.shirt === 'Si'">{{ formatPrice(priceShirt) }}</div>
+    <div class="text-secondary" style="margin-top:5px ;">{{ formatPrice(form.total || 25000 ) }}</div>
   </div>
 </div>
   </div>
@@ -213,19 +215,42 @@
 </div>
 
 <div class="col-12 col-md-6 q-mt-md">
-  <div class="flex justify-center">
-    <q-btn
-      color="dark"
-      icon="cloud_upload"
-      label="Subir comprobante de pago"
-      @click="OpenSearch()"
-      :loading="loading2"
-      unelevated
-      rounded
-      no-caps
-      class="q-px-lg"
+  <div class="flex justify-center items-center gap-2">
+  <q-btn
+    color="dark"
+    icon="cloud_upload"
+    label="Subir comprobante de pago"
+    @click="OpenSearch()"
+    :loading="loading2"
+    unelevated
+    rounded
+    no-caps
+    class="q-px-lg"
+  />
+  <span 
+    v-show="showSpam" 
+    class="q-ml-sm text-caption"
+    :class="form.proofImage ? 'text-positive' : 'text-negative'"
+    style="
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 8px;
+      border-radius: 4px;
+      background-color: rgba(0,0,0,0.05);
+      border-left: 3px solid;
+    "
+    :style="{
+      'border-color': form.proofImage ? '#21BA45' : '#C10015'
+    }"
+  >
+    <q-icon 
+      :name="form.proofImage ? 'check_circle' : 'error'" 
+      size="sm" 
+      class="q-mr-xs"
     />
-  </div>
+    {{ form.proofImage ? "Imagen cargada correctamente" : "Error al cargar imagen" }}
+  </span>
+</div>
   <input
     ref="fileInput"
     type="file"
@@ -309,7 +334,7 @@
 </template>
 
 <script setup>
-import { ref, toRaw, watch } from 'vue'
+import { ref, toRaw} from 'vue'
 import { postData } from '../services/apiClient.js'
 import { Notify } from 'quasar'
 const formRef = ref();
@@ -317,13 +342,23 @@ const form = ref({});
 const fileInput = ref(null);
 const loading = ref(false);
 const loading2 = ref(false);
+const showSpam = ref(false)
 const showConfirmation = ref(false);
-const priceInscription = ref(25000);
 const priceShirt = ref(35000)
+const priceInscription = ref(25000)
 
 function OpenSearch() {
   fileInput.value.click()
   loading2.value = true;
+}
+
+function total(value) {
+  if (value === "Si") {
+    form.value.total = priceInscription.value + priceShirt.value;
+  } else {
+    form.value.total = priceInscription.value;
+  }
+  console.log("Total actualizado:", form.value.total);
 }
 
 
@@ -350,6 +385,7 @@ async function searchImage(event) {
   }
   finally {
     loading2.value = false
+    showSpam.value = true
   }
 
 }
@@ -361,9 +397,8 @@ const onSubmit = async () => {
     const success = await formRef.value.validate()
     if (success) {
       console.log('Formulario válido:', form.value)
-      const response = await postData("/inscription/register",{
-        data:toRaw(form.value)
-        
+      const response = await postData("/inscription/register", {
+        data: toRaw(form.value)
       });
       Notify.create({
         type: 'positive',
@@ -390,6 +425,7 @@ const onSubmit = async () => {
 
 const onReset = () => {
   formRef.value.resetValidation()
+  showSpam.value = false
   Object.keys(form.value).forEach(key => {
     if (typeof form.value[key] === 'boolean') {
       form.value[key] = true
@@ -447,7 +483,7 @@ h4 {
   margin-bottom: 35px;
 }
 
-.residence{
+.residence {
   display: block;
   margin-top: 10px;
 }
