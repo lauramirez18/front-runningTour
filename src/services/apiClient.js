@@ -3,7 +3,6 @@ import apiClient from "../plugins/axios.js";
 export async function getData(url) {
     try {
         const response = await apiClient.get(url);
-        console.log(response);
         return response.data;
     } catch (error) {
         console.error('error en la peticion GET', error);
@@ -13,7 +12,7 @@ export async function getData(url) {
 
 export async function postData(url, data,){
     try {
-        console.log(data)
+    
         const response = await apiClient.post(url, data);
         return response.data;
     } catch (error){

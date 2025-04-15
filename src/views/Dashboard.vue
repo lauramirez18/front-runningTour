@@ -1,46 +1,91 @@
 <template>
     <div class="q-pa-lg dashboard-container">
+        <div class="row justify-end">
+    <q-card
+      class="my-card q-pa-sm shadow-3 "
+      style="width: 100px; background-color: #000; color: #99ff43;">
+      <div style="font-size: 10px;">
+        <div>
+          <div class=" text-weight-bold text-center">Total Inscritos</div>
+          <div class="text-h5 text-bold text-center">{{ totalParticipants }}</div>
+        </div>
+      </div>
+    </q-card>
+  </div>
         <!-- Sección de botones encima de factura-container -->
-    <q-card-section class="q-pa-md flex justify-center ">
+        <q-card-section class="q-pa-md flex justify-center q-gutter-md">
+  <div class="column items-center">
+    <q-btn 
+      color="warning"
+      icon="hourglass_empty"
+      label="Pendientes"
+      @click="data('earrings'); btnStatus = 'earrings'"
+      style="font-weight: bold;"
+    />
+  </div>
 
-      <q-btn 
-        color="warning"
-        icon="hourglass_empty"
-        label="pendientes"
-        @click="data('earrings') ; btnStatus = 'earrings'"
-        class="q-mx-sm"
-        style=" font-weight: bold; "
-      />
-      <q-btn 
-        color="positive"
-        icon="check"
-        label="Aprobadas"
-        @click="data('approved') ; btnStatus = 'approved'"
-        class="q-mx-sm"
-        style=" font-weight: bold; "
-      />
-    
-      <q-btn 
-        color="negative"
-        icon="close"
-        label="Rechazadas"
-        @click="data('rejected') ; btnStatus = 'rejected'"
-        class="q-mx-sm"
-        style=" font-weight: bold; "
-      />
-      
+  <div class="column items-center">
+    <q-btn 
+      color="positive"
+      icon="check"
+      label="Aprobadas"
+      @click="data('approved'); btnStatus = 'approved'"
+      style="font-weight: bold;"
+    />
+  </div>
 
-  </q-card-section>
-        <q-card class="q-pa-md shadow-2xl rounded-xl bg-white">
+  <div class="column items-center">
+    <q-btn 
+      color="negative"
+      icon="close"
+      label="Rechazadas"
+      @click="data('rejected'); btnStatus = 'rejected'"
+      style="font-weight: bold;"
+    />
+  </div>
+  
+</q-card-section>
+        <q-card>
+            
+
         
-        <q-card-section class="row items-center  q-pb-none">
-          <div class="text-h5 text-bold text-secondary text-center ">{{ tableTittle }}</div>
-          <q-space />
-        </q-card-section>
+            <q-card-section class="row items-center q-col-gutter-md q-pb-none">
+  <!-- Título -->
+  <div class="col-12 col-md-4 text-center">
+    <div class="text-h6 text-bold text-secondary">
+      {{ tableTittle }}
+    </div>
+  </div>
+
+  <!-- Contador -->
+  <div class="col-12 col-md-4 text-center">
+    <q-badge
+  color="dark"
+  class=" q-pa-sm flex column items-center justify-center bg-gradient shadow-4"
+>
+<div class=" text-weight-bold" style="font-size: 10px;">Total</div>
+<div class="text-h6 text-weight-bold">{{ registeredParticipants }}</div>
+</q-badge>
+  </div>
+
+ <!-- Búsqueda por cédula -->
+ <div class="col-12 col-md-4">
+    <q-input
+      dense
+      filled
+      v-model="searchDni"
+      label="Buscar por cédula o por nombre"
+      debounce="300"
+      clearable
+      type="text"
+      color="dark"
+    />
+  </div>
+</q-card-section>
   
         <q-card-section>
           <q-table
-            :rows="rows"
+            :rows="filteredRows"
             :columns="columns"
             row-key="_id"
             flat
@@ -108,7 +153,7 @@
   
       <!-- Modal de Detalles -->
       <q-dialog v-model="mostrarModal">
-  <q-card style="min-width: 400px; max-width: 50vw;" class="q-pa-md bg-grey-1 rounded-borders">
+  <q-card style="min-width: 400px; max-width: 50vw;" class="q-pa-md bg-grey-1 rounded-borders shadow-10">
     
     <!-- Encabezado -->
     <q-card-section class="bg-dark text-white flex items-center rounded-borders">
@@ -301,16 +346,19 @@
   </template>
   
   <script setup>
-  import { ref, onMounted } from 'vue'
+  import { ref, onMounted, computed } from 'vue'
   import { getData, postData, putData } from '../services/apiClient.js'
   import { Notify } from 'quasar'
+  import { date } from 'quasar'
  
   
   const columns = [
+    {name: "createdAt", label: "Fecha de Elaboración", align: "center", field: row => date.formatDate(row.createdAt, 'DD/MM/YYYY'), sortable: true},
     { name: 'documentNumber', label: 'Documento', field: 'documentNumber', align: 'left' },
     { name: 'fullName', label: 'Nombres', field: 'firstName', align: 'center' },
     { name: 'phone', label: 'Teléfono', field: 'phone', align: 'center' },
     { name: 'gmail', label: 'Correo', field: 'email', align: 'center' },
+    { name: 'shirt', label: 'Camiseta', field: 'shirt', align: 'center' },
     { name: 'actions', label: 'Acciones', field: 'actions', align: 'center' }
   ]
   
@@ -324,8 +372,20 @@
   const datosSeleccionados = ref({})
   const btnStatus = ref('earrings')
   const tableTittle = ref('')
+  const searchDni = ref('')
   const imagenAmpliada = ref(false)
+  const registeredParticipants = ref(0)
+  const totalParticipants = ref(0)
   
+
+  const filteredRows = computed(() => {
+  if (!searchDni.value) return rows.value
+  const search = searchDni.value.toLowerCase()
+  return rows.value.filter(row =>
+    row.documentNumber.toLowerCase().includes(search) ||
+    `${row.firstName} ${row.lastName}`.toLowerCase().includes(search)
+  )
+})
 
   const verDetalles = (row) => {
     datosSeleccionados.value = row
@@ -360,7 +420,8 @@
   async function fullInscriptions() {
     try {
       const response = await getData("/inscription/full")
-      console.log("data de todas las inscripciones mas conteo", response.data);
+        totalParticipants.value = response.data.length
+      console.log("data de todas las inscripciones mas conteo", response.data.length);
     } catch (error) {
       console.log("error trayendo toda la info de inscripciones");
     }
@@ -368,6 +429,7 @@
 
   
   async function update(id,state) {
+    
     try {
       const response = await putData(`/inscription/update/${id}`,{
         data:{state:state}
@@ -391,6 +453,7 @@
     try {
       const response = await getData(`/inscription/data/${state}`)
       rows.value = response.data
+      registeredParticipants.value = response.data.length
         console.log(`DATA DE ${state}`, rows.value.length);
 
       const titles = {

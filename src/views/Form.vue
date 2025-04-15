@@ -152,14 +152,13 @@
 
         <div class="q-mt-xl">
   <h4 class="text-bold q-mb-md text-h5">
-    DATOS DE PAGO <span class="text-accent">Nequi</span>
-  </h4>
-
+    DATOS DE PAGO</h4>
+ 
   <div class="row q-col-gutter-md">
     <!-- Pregunta si quiere camiseta -->
     <div class="col-12 displayBlack">
       <div class="form-field">
-        <label for="talla">¿Desea adquirir camiseta del evento?</label>
+        <label for="talla">¿Desea adquirir camiseta del evento? <span class="text-negative">*</span></label>
         <q-select
           filled
           dense
@@ -192,7 +191,7 @@
   <!-- Columna de etiquetas -->
   <div class="column items-end text-right">
     <div class="text-bold text-info">Valor Inscripción</div>
-    <div class="text-bold text-info" v-show="form.shirt === 'Si'">Valor Adicional Camisa</div>
+    <div class="text-bold text-info" v-show="form.shirt === 'Si'">Valor Adicional Camiseta</div>
     <div class="text-bold text-secondary text-h6">Valor Total</div>
   </div>
 
@@ -210,8 +209,42 @@
     <div class="text-secondary" style="margin-top:5px ;">{{ formatPrice(form.total || 25000 ) }}</div>
   </div>
 </div>
-  </div>
 
+  </div>
+  <q-card
+  class="q-mb-md col-12 q-pa-md shadow-2 " style="margin: 30px 0px ;">
+  <p class="text-bold text-h6 text-center text-negative">⚠️Importante⚠️</p>
+ 
+  <div class="row items-center q-col-gutter-md">
+    <!-- Nequi -->
+    <div class="col-xs-12 col-sm-6 row items-center">
+      <q-img
+        src="https://d1yjjnpx0p53s8.cloudfront.net/styles/logo-thumbnail/s3/052021/nequi.jpg?czuScT8k4x122TD.nTrAG7ZQqCwQCdSW&itok=1TKWVgjS"
+        style="width: 50px; height: 50px; ;"
+        spinner-color="primary"
+      />
+      <div class="q-ml-md">
+        <div class="text-subtitle2 text-bold">Pago por <span class="text-accent">Nequi </span> </div>
+        <div class="text-caption">Número: <strong >3164110047</strong></div>
+        <div class="text-caption">Titular: <strong>Cristian....</strong></div>
+      </div>
+    </div>
+
+    <!-- Daviplata -->
+    <div class="col-xs-12 col-sm-6 row items-center">
+      <q-img
+        src="https://sunegocio.daviplata.com/sites/default/files/styles/original/public/2023-11/af2be4165905879.Y3JvcCwxNDAwLDEwOTUsMCwxNTI.png?itok=Fn_Y_HIf"
+        style="width: 50px; height: 40px;"
+        spinner-color="white"
+      />
+      <div class="q-ml-md">
+        <div class="text-subtitle2 text-bold">Pago por <span class="text-negative">Daviplata</span></div>
+        <div class="text-caption">Número: <strong>3164110047</strong></div>
+        <div class="text-caption">Titular: <strong>Cristian...</strong></div>
+      </div>
+    </div>
+  </div>
+</q-card>
 </div>
 
 <div class="col-12 col-md-6 q-mt-md">
@@ -287,24 +320,16 @@
       color="blue-7"
       @click="openLink('https://www.facebook.com/jireh.sangil?rdid=gfiRL00CtTelI6eX&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1AHjr6uPQS%2F#')"
     />
-    <q-btn
-      round
-      flat
-      icon="whatsapp"
-      color="blue-8"
-      @click="openLink('https://wa.me/573001112233')" 
-    />
-    <q-btn
-      round
-      flat
-      icon="mail"
-      color="deep-purple-4"
-      @click="openLink('https://www.instagram.com/jireth_sport_365/?igsh=bTU0bHMya3o4bzVz#')" 
-    />
+    <q-btn flat round @click="openLink('https://wa.me/573164110047')" color="white">
+  <img src="https://pngimg.com/d/whatsapp_PNG21.png" alt="WhatsApp" style="width: 24px; height: 24px;" />
+</q-btn>
+<q-btn flat round @click="openLink('https://www.instagram.com/jireth_sport_365?igsh=bTU0bHMya3o4bzVz')" color="white">
+  <img src="https://png.pngtree.com/png-vector/20221018/ourmid/pngtree-instagram-social-platform-icon-png-image_6315976.png" alt="Instagram" style="width: 24px; height: 24px;" />
+</q-btn>
   </div>
 
   <div class="text-caption q-mt-md">
-    También puedes escribirnos a <span class="text-primary"></span>
+    También puedes escribirnos a <span class="text-primary">Jirethsport365@gmail.com</span>
   </div>
 </div>
       </q-form>
