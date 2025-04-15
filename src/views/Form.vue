@@ -59,7 +59,8 @@
               <q-input filled dense v-model="form.address" />
             </div>
             <div class="col-12 col-md-6 residence">
-              <q-toggle v-model="form.livesInColombia" label="¿Reside en Colombia?" color="primary" class="q-mt-sm" style="margin-top: 10px;"/>
+              <q-toggle v-model="form.livesInColombia" label="¿Reside en Colombia?" color="primary" class="q-mt-sm"
+                style="margin-top: 10px;" />
             </div>
           </div>
         </div>
@@ -155,10 +156,20 @@
           </div>
         </div>
 
-        <div class="col-12 col-md-6">
-          <q-btn filled :loading="loading2" label="Comprobante" @click="OpenSearch()" />
-          <input ref="fileInput" type="file" accept="image/*" style="display: none" @change="searchImage" />
-        </div>
+        <div class="col-12 col-md-6" style="display: flex; align-items: center; gap: 12px;">
+  <q-btn filled :loading="loading2" label="Comprobante" @click="OpenSearch()" />
+
+  <span v-show="showSpam"
+    style="display: inline-flex; align-items: center; padding: 6px 12px; background-color: #2E2E2E; color: white; border-radius: 20px; font-weight: 500; font-size: 14px; white-space: nowrap; box-shadow: 0 2px 5px rgba(0,0,0,0.15);">
+    {{ form.proofImage ? "✅ Imagen cargada" : "❎ Error al cargar imagen , Intenta nuevamente" }}
+  </span>
+
+  <input ref="fileInput" type="file" accept="image/*" style="display: none" @change="searchImage" />
+</div>
+
+
+
+
 
         <!-- Botones -->
         <div class="row justify-end q-mt-xl">
@@ -179,11 +190,14 @@ const form = ref({});
 const fileInput = ref(null);
 const loading = ref(false);
 const loading2 = ref(false);
+const showSpam = ref(false)
 
 function OpenSearch() {
   fileInput.value.click()
   loading2.value = true;
 }
+
+
 
 async function searchImage(event) {
   try {
@@ -208,6 +222,7 @@ async function searchImage(event) {
   }
   finally {
     loading2.value = false
+    showSpam.value = true
   }
 
 }
@@ -219,8 +234,8 @@ const onSubmit = async () => {
     const success = await formRef.value.validate()
     if (success) {
       console.log('Formulario válido:', form.value)
-      const response = await postData("/inscription/register",{
-        data:toRaw(form.value)
+      const response = await postData("/inscription/register", {
+        data: toRaw(form.value)
       });
       Notify.create({
         type: 'positive',
@@ -286,7 +301,7 @@ h4 {
   text-align: center;
 }
 
-.residence{
+.residence {
   display: block;
   margin-top: 10px;
 }
