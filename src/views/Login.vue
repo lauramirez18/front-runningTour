@@ -112,7 +112,6 @@
       })
       return
     }
-    console.log({user:user.value, password:password.value});
     const response = await postData("/user/login",{
       user:user.value,
       password:password.value
