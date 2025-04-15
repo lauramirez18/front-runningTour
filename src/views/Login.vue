@@ -156,7 +156,7 @@
 
   .card-container {
     width: 100%;
-    max-width: 400px;
+    max-width: 350px;
     box-shadow: 0 0  10px rgb(255, 67, 67); /* Verde lima con difuminado */
     border: none;
     backdrop-filter: blur(8px);
