@@ -27,7 +27,7 @@ export async function putData(url, data) {
         const response = await apiClient.put(url,data);
         return response.data;
     } catch (error) {
-        console.error('erro en la peticion PUT', error);
+        console.error('error en la peticion PUT', error);
         throw error;    
     }
 }
