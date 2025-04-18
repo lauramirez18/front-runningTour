@@ -21,6 +21,7 @@
       label="Pendientes"
       @click="data('earrings'); btnStatus = 'earrings'"
       style="font-weight: bold;"
+      
     />
   </div>
 
@@ -85,13 +86,13 @@
   
         <q-card-section>
           <q-table
+            separator="cell"
             :rows="filteredRows"
             :columns="columns"
             row-key="_id"
             flat
             bordered
             :pagination="{ rowsPerPage: 10 }"
-            hide-bottom
             class="custom-table"
           >
             <!-- Encabezado personalizado -->
@@ -107,6 +108,19 @@
     {{ props.row.firstName }} {{ props.row.lastName }}
   </q-td>
 </template>
+<template v-slot:body-cell-shirt="props">
+  <q-td :props="props">
+    <q-badge
+      :color="props.row.shirt.toLowerCase() === 'si' || props.row.shirt.toLowerCase() === 'sí' ? 'green' : 'red'"
+      text-color="white"
+      class=" q-pa-sm"
+    >
+      {{ props.row.shirt }}
+    </q-badge>
+  </q-td>
+</template>
+
+
   
             <!-- Acciones -->
             <template v-slot:body-cell-actions="props">
@@ -117,6 +131,7 @@
                   round
                   color="info"
                   icon="visibility"
+                  
                   @click="verDetalles(props.row)">
                   <q-tooltip>Ver detalles</q-tooltip>
                 </q-btn>
@@ -128,21 +143,22 @@
                   icon="check"
                 :loading="loadingMap.accepted[props.row._id] === true"
                   v-show="props.row.state == 2 || props.row.state == 0"
-                  class="q-ml-sm"
+                  class="q-ml-sm "
                   @click="update(props.row._id,'1') ; sendEmail(props.row.email, 'accepted','Confirmacion inscripcion',props.row._id)">
                   <q-tooltip>Aprobar</q-tooltip>
                 </q-btn>
 
                 <q-btn
-                  size="sm"
-                  flat
-                  round
-                  color="red"
-                  icon="close"
-                      v-show="props.row.state == 1 || props.row.state == 0"
-                :loading="loadingMap.refused[props.row._id] === true"
-                  class="q-ml-sm"
-                  @click="update(props.row._id,'2'); sendEmail(props.row.email,'refused','Rechazo inscripcion',props.row._id)">
+                size="sm"
+  flat
+  round
+  color="red"
+  icon="close"
+  v-show="props.row.state == 1 || props.row.state == 0"
+  :loading="loadingMap.refused[props.row._id] === true"
+  class="q-ml-sm"
+  @click="abrirDialogoRechazo(props.row)"
+>
                   <q-tooltip>Rechazar</q-tooltip>
                 </q-btn>
               </q-td>
@@ -297,6 +313,39 @@
               </q-item-section>
             </q-item>
           </div>
+
+          <div class="col-12 col-sm-6">
+            <q-item>
+              <q-item-section avatar><q-icon name="checkroom" color="primary" /></q-item-section>
+              <q-item-section>
+                <q-item-label class="text-bold">Camiseta</q-item-label>
+                <q-item-label caption>{{ datosSeleccionados.shirt }}</q-item-label>
+              </q-item-section>
+            </q-item>
+          </div>
+
+          <div class="col-12 col-sm-6">
+            <q-item>
+              <q-item-section avatar><q-icon name="attach_money" color="primary" /></q-item-section>
+              <q-item-section>
+                <q-item-label class="text-bold">Total</q-item-label>
+                <q-item-label caption>{{ datosSeleccionados.total }}</q-item-label>
+              </q-item-section>
+            </q-item>
+          </div>
+
+          <div class="col-12">
+            <q-item v-if="datosSeleccionados.rejectionReason ">
+              <q-item-section>
+  <q-item-label class="text-negative row items-center justify-center">
+    <q-icon name="report_problem" class="q-mr-sm" />
+    Motivo del Rechazo:
+  </q-item-label>
+  <q-item-label caption class="q-ml-lg text-center">{{ datosSeleccionados.rejectionReason }}</q-item-label>
+</q-item-section>
+    </q-item>
+          </div>
+          
          
             <div class="col-12">
                 <q-item>     
@@ -325,7 +374,7 @@
 </q-item>
             </div>
        
-          <!-- Puedes seguir agregando más campos aquí -->
+       
         </div>
         
 
@@ -342,6 +391,32 @@
         :ratio="1"
       />
 </q-dialog>
+
+<q-dialog v-model="dialogMotivo" persistent>
+  <q-card class="q-pa-md bg-grey-1" style="min-width: 400px;">
+    <q-card-section>
+      <div class="text-h6 ">Motivo del Rechazo</div>
+    </q-card-section>
+
+    <q-card-section>
+      <q-input
+        type="textarea"
+        label="Explica por qué fue rechazado"
+        v-model="motivoRechazo"
+        outlined
+        autogrow
+        dense
+      />
+    </q-card-section>
+
+    <q-card-actions align="right">
+      <q-btn flat label="Cancelar" color="grey" @click="dialogMotivo = false" />
+      <q-btn flat label="Rechazar" color="red" @click="confirmarRechazo" :disable="!motivoRechazo.trim()" />
+    </q-card-actions>
+  </q-card>
+</q-dialog>
+
+
     </div>
   </template>
   
@@ -352,15 +427,24 @@
   import { date } from 'quasar'
  
   
-  const columns = [
-    {name: "createdAt", label: "Fecha de Elaboración", align: "center", field: row => date.formatDate(row.createdAt, 'DD/MM/YYYY'), sortable: true},
-    { name: 'documentNumber', label: 'Documento', field: 'documentNumber', align: 'left' },
-    { name: 'fullName', label: 'Nombres', field: 'firstName', align: 'center' },
-    { name: 'phone', label: 'Teléfono', field: 'phone', align: 'center' },
-    { name: 'gmail', label: 'Correo', field: 'email', align: 'center' },
-    { name: 'shirt', label: 'Camiseta', field: 'shirt', align: 'center' },
-    { name: 'actions', label: 'Acciones', field: 'actions', align: 'center' }
-  ]
+  const columns = computed(() =>{
+    const baseColumns = [
+      {name: "createdAt", label: "Fecha de Elaboración", align: "center", field: row => date.formatDate(row.createdAt, 'DD/MM/YYYY'), sortable: true},
+      { name: 'documentNumber', label: 'Documento', field: 'documentNumber', align: 'left' },
+      { name: 'fullName', label: 'Nombres', field: 'firstName', align: 'center' },
+      { name: 'phone', label: 'Teléfono', field: 'phone', align: 'center' },
+      { name: 'gmail', label: 'Correo', field: 'email', align: 'center' },
+      { name: 'shirt', label: 'Camiseta', field: 'shirt', align: 'center' },
+      { name: 'actions', label: 'Acciones', field: 'actions', align: 'center' }
+ ]
+      if(btnStatus.value === 'rejected'){
+        baseColumns.splice(baseColumns.length - 1, 0, { name: 'rejectionReason', label: 'Motivo del Rechazo', field: 'rejectionReason', align: 'center' })
+      }
+
+    return baseColumns
+   
+  });
+   
   
   const rows = ref([]) // ← Aquí se cargarán los datos desde tu backend
   const loadingMap = ref({
@@ -376,6 +460,9 @@
   const imagenAmpliada = ref(false)
   const registeredParticipants = ref(0)
   const totalParticipants = ref(0)
+  const motivoRechazo = ref('')
+const dialogMotivo = ref(false)
+const rowRechazo = ref(null)
   
 
   const filteredRows = computed(() => {
@@ -386,6 +473,45 @@
     `${row.firstName} ${row.lastName}`.toLowerCase().includes(search)
   )
 })
+
+function abrirDialogoRechazo(row) {
+  rowRechazo.value = row
+  motivoRechazo.value = ''
+  dialogMotivo.value = true
+}
+
+async function confirmarRechazo() {
+  dialogMotivo.value = false
+  const row = rowRechazo.value
+  try {
+    loadingMap.value.refused[row._id] = true
+
+    await putData(`/inscription/update/${row._id}`, {
+      data: {
+        state: '2',
+        rejectionReason: motivoRechazo.value // Envíalo al backend
+      }
+    })
+
+    await sendEmail(
+      row.email,
+      'refused',
+      'Rechazo inscripción',
+      row._id,
+      motivoRechazo.value // Aquí también se lo pasas si tu backend lo acepta
+    )
+
+    alert('positive', `Rechazo guardado y correo enviado a ${row.email}`)
+
+    data(btnStatus.value)
+  } catch (error) {
+    console.error('Error al guardar motivo de rechazo', error)
+    alert('negative', 'Error al guardar el rechazo')
+  } finally {
+    loadingMap.value.refused[row._id] = false
+  }
+}
+
 
   const verDetalles = (row) => {
     datosSeleccionados.value = row

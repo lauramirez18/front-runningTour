@@ -23,11 +23,14 @@
       <router-view />
     </q-page-container>
 
-    <q-footer elevated class="bg-dark text-white">
+    <q-footer elevated class="bg-dark text-grey-9 q-pa-sm text-center text-caption">
       <q-toolbar>
         <q-toolbar-title>
           
-          <div></div>
+          <div class="text-center text-caption">
+            © {{ new Date().getFullYear() }} | Formulario desarrollado por <strong>Andres Felipe Sierra</strong> y <strong>Laura Ramirez Avendaño</strong>
+          </div>
+          
         </q-toolbar-title>
       </q-toolbar>
     </q-footer>
