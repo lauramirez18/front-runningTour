@@ -113,7 +113,7 @@
       return
     }
     const response = await postData("/user/login",{
-      user:user.value,
+      user:user.value.toLowerCase(),
       password:password.value
     });
     store.set_Token(response.token)
