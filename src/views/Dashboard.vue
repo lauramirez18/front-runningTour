@@ -518,13 +518,15 @@ async function confirmarRechazo() {
     mostrarModal.value = true
   }
 
-  async function sendEmail(to,status, title, rowId){
+  async function sendEmail(to,status, title, rowId, rejectionReason){
     try {
       loadingMap.value[status][rowId] = true
+      console.log("razon rechazo", rejectionReason);
       const response = await postData("/email/sendEmail",{
         to:to,
         subject:title,
-        status:status
+        status:status,
+        rejectionReason:rejectionReason
       })
       if(status === 'accepted'){
       alert('positive',`Se a enviado un correo de ${title} a ${to}`)
