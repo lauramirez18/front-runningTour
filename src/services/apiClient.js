@@ -12,7 +12,7 @@ export async function getData(url) {
 
 export async function postData(url, data,){
     try {
-    
+        console.log("data", data);
         const response = await apiClient.post(url, data);
         return response.data;
     } catch (error){

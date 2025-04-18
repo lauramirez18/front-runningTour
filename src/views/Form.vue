@@ -59,8 +59,10 @@
               <q-input filled dense v-model="form.address" />
             </div>
             <div class="col-12 col-md-6 residence">
-              <q-toggle v-model="form.livesInColombia" label="¿Reside en Colombia?" color="primary" class="q-mt-sm"
-                style="margin-top: 10px;" />
+              <label for="residence">¿Reside en Colombia? <span class="text-negative">*</span></label>
+              <q-select filled dense v-model="form.livesInColombia" :options="['Si', 'No']"
+                :rules="[val => !!val || 'Campo requerido']" />
+             
             </div>
           </div>
         </div>
@@ -212,7 +214,7 @@
 
   </div>
   <q-card
-  class="q-mb-md col-12 q-pa-md shadow-2 " style="margin: 30px 0px ;">
+  class=" q-mb-md col-12 q-pa-md shadow-2 " style="margin: 30px 0px ;">
   <p class="text-bold text-h6 text-center text-negative">⚠️Importante⚠️</p>
  
   <div class="row items-center q-col-gutter-md">
@@ -226,7 +228,7 @@
       <div class="q-ml-md">
         <div class="text-subtitle2 text-bold">Pago por <span class="text-accent">Nequi </span> </div>
         <div class="text-caption">Número: <strong >3164110047</strong></div>
-        <div class="text-caption">Titular: <strong>Cristian....</strong></div>
+        <div class="text-caption">Titular: <strong>Cristian Vesga</strong></div>
       </div>
     </div>
 
@@ -240,7 +242,7 @@
       <div class="q-ml-md">
         <div class="text-subtitle2 text-bold">Pago por <span class="text-negative">Daviplata</span></div>
         <div class="text-caption">Número: <strong>3164110047</strong></div>
-        <div class="text-caption">Titular: <strong>Cristian...</strong></div>
+        <div class="text-caption">Titular: <strong>Cristian Vesga</strong></div>
       </div>
     </div>
   </div>
@@ -417,7 +419,9 @@ async function searchImage(event) {
 
 
 const onSubmit = async () => {
-  try {
+  
+
+    try {
     loading.value = true
     const success = await formRef.value.validate()
     if (success) {
@@ -508,10 +512,7 @@ h4 {
   margin-bottom: 35px;
 }
 
-.residence {
-  display: block;
-  margin-top: 10px;
-}
+
 
 form label {
 
