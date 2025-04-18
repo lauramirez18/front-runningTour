@@ -265,7 +265,7 @@
   <span 
     v-show="showSpam" 
     class="q-ml-sm text-caption"
-    :class="form.proofImage ? 'text-positive' : 'text-negative'"
+    :class="form.image ? 'text-positive' : 'text-negative'"
     style="
       display: inline-flex;
       align-items: center;
@@ -275,15 +275,15 @@
       border-left: 3px solid;
     "
     :style="{
-      'border-color': form.proofImage ? '#21BA45' : '#C10015'
+      'border-color': form.image ? '#21BA45' : '#C10015'
     }"
   >
     <q-icon 
-      :name="form.proofImage ? 'check_circle' : 'error'" 
+      :name="form.image ? 'check_circle' : 'error'" 
       size="sm" 
       class="q-mr-xs"
     />
-    {{ form.proofImage ? "Imagen cargada correctamente" : "Error al cargar imagen" }}
+    {{ form.image ? "Imagen cargada correctamente" : "Error al cargar imagen" }}
   </span>
 </div>
   <input
@@ -393,11 +393,7 @@ async function searchImage(event) {
   try {
     const file = event.target.files[0]
     if (file) {
-      const formData = new FormData()
-      formData.append('image', file)
-      const response = await postData("/upload/images", formData)
-      form.value.proofImage = response.imageUrl
-      form.value.imagePublicId = response.public_id
+      form.value.image = file
       Notify.create({
         type: 'positive',
         message: 'Imagen cargada corretamente'
@@ -419,22 +415,21 @@ async function searchImage(event) {
 
 
 const onSubmit = async () => {
-  
-
     try {
     loading.value = true
     const success = await formRef.value.validate()
     if (success) {
       console.log('Formulario válido:', form.value)
-      const response = await postData("/inscription/register", {
-        data: toRaw(form.value)
-      });
+      const formData = new FormData()
+      formData.append('image', form.value.image)
+      formData.append('data',JSON.stringify(form.value))
+      const response = await postData("/inscription/register",formData);
       Notify.create({
         type: 'positive',
         message: 'Registro exitoso'
       })
       showConfirmation.value = true;
-      formRef.value.reset();
+   /*    formRef.value.reset(); */
       console.log(response.data);
     }
     else {
