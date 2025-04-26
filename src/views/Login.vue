@@ -39,7 +39,7 @@
                 outlined
                 dense
                
-                :rules="[val => !!val || 'El usuario es obligatorio']"
+                :rules="[val => !!val && val.trim().length > 0 || 'Campo obligatorio']"
                 :prefix="`👤`"
                 class="input-field align-center"
               />
@@ -51,7 +51,7 @@
                 outlined
                 dense
                
-                :rules="[val => !!val || 'La contraseña es obligatoria']"
+                :rules="[val => !!val && val.trim().length > 0 || 'Campo obligatorio']"
                 :prefix="`🔒`"
                 class="input-field"
               >
@@ -113,8 +113,8 @@
       return
     }
     const response = await postData("/user/login",{
-      user:user.value.toLowerCase(),
-      password:password.value
+      user:user.value.trim().toLowerCase(),
+      password:password.value.trim()
     });
     store.set_Token(response.token)
     Notify.create({

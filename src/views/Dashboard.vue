@@ -432,9 +432,10 @@
       {name: "createdAt", label: "Fecha de Elaboración", align: "center", field: row => date.formatDate(row.createdAt, 'DD/MM/YYYY'), sortable: true},
       { name: 'documentNumber', label: 'Documento', field: 'documentNumber', align: 'left' },
       { name: 'fullName', label: 'Nombres', field: 'firstName', align: 'center' },
-      { name: 'phone', label: 'Teléfono', field: 'phone', align: 'center' },
       { name: 'gmail', label: 'Correo', field: 'email', align: 'center' },
+      { name: 'category', label: 'Categoría', field: 'category', align: 'center' },
       { name: 'shirt', label: 'Camiseta', field: 'shirt', align: 'center' },
+      { name: 'shirtWithSleeves', label: 'Camiseta con mangas', field: 'shirtWithSleeves', align: 'center' },
       { name: 'actions', label: 'Acciones', field: 'actions', align: 'center' }
  ]
       if(btnStatus.value === 'rejected'){
