@@ -121,6 +121,21 @@
 </template>
 
 
+<template v-slot:body-cell-shirtWithSleeves="props">
+    <q-td :props="props" class="text-h6">
+      <q-icon
+        :name="props.row.shirtWithSleeves === 'Si' ? 'check_circle' : 'cancel'"
+        :color="props.row.shirtWithSleeves === 'Si' ? 'green' : 'red'"
+        size="sm"
+      />
+    </q-td>
+  </template>
+
+  <template v-slot:body-cell-total="props">
+  <q-td :props="props">
+    {{ formatPrice(props.row.total) }}
+  </q-td>
+</template>
   
             <!-- Acciones -->
             <template v-slot:body-cell-actions="props">
@@ -326,10 +341,20 @@
 
           <div class="col-12 col-sm-6">
             <q-item>
+              <q-item-section avatar><q-icon name="checkroom" color="primary" /></q-item-section>
+              <q-item-section>
+                <q-item-label class="text-bold">Camiseta Con Mangas</q-item-label>
+                <q-item-label caption>{{datosSeleccionados.shirtWithSleeves }}</q-item-label>
+              </q-item-section>
+            </q-item>
+            </div>
+
+          <div class="col-12 ">
+            <q-item>
               <q-item-section avatar><q-icon name="attach_money" color="primary" /></q-item-section>
               <q-item-section>
                 <q-item-label class="text-bold">Total</q-item-label>
-                <q-item-label caption>{{ datosSeleccionados.total }}</q-item-label>
+                <q-item-label caption>{{formatPrice(datosSeleccionados.total) }}</q-item-label>
               </q-item-section>
             </q-item>
           </div>
@@ -432,10 +457,10 @@
       {name: "createdAt", label: "Fecha de Elaboración", align: "center", field: row => date.formatDate(row.createdAt, 'DD/MM/YYYY'), sortable: true},
       { name: 'documentNumber', label: 'Documento', field: 'documentNumber', align: 'left' },
       { name: 'fullName', label: 'Nombres', field: 'firstName', align: 'center' },
-      { name: 'gmail', label: 'Correo', field: 'email', align: 'center' },
       { name: 'category', label: 'Categoría', field: 'category', align: 'center' },
       { name: 'shirt', label: 'Camiseta', field: 'shirt', align: 'center' },
-      { name: 'shirtWithSleeves', label: 'Camiseta con mangas', field: 'shirtWithSleeves', align: 'center' },
+      {name: 'shirtWithSleeves', label: 'C. con Mangas',field: 'shirtWithSleeves',align: 'center'},
+      { name: 'total', label: 'Total', field: 'total', align: 'center' },
       { name: 'actions', label: 'Acciones', field: 'actions', align: 'center' }
  ]
       if(btnStatus.value === 'rejected'){
@@ -502,7 +527,7 @@ async function confirmarRechazo() {
       motivoRechazo.value // Aquí también se lo pasas si tu backend lo acepta
     )
 
-    alert('positive', `Rechazo guardado y correo enviado a ${row.email}`)
+   /*  alert('positive', `Rechazo guardado y correo enviado a ${row.email}`) */
 
     data(btnStatus.value)
   } catch (error) {
@@ -533,7 +558,7 @@ async function confirmarRechazo() {
       alert('positive',`Se a enviado un correo de ${title} a ${to}`)
       }
       else{
-      alert('negative',`Se a enviado un correo de ${title} a ${to}`)
+      alert('positive',`Se a enviado un correo de ${title} a ${to}`)
       }
       console.log(response.message);
     console.log("alerta tipo", status);
@@ -597,6 +622,15 @@ async function confirmarRechazo() {
       console.error('Error cargando inscripciones:', error)
     }
   }
+
+  function formatPrice(value) {
+  if (!value) return '$0';
+  return new Intl.NumberFormat('es-CO', {
+    style: 'currency',
+    currency: 'COP',
+    minimumFractionDigits: 0
+  }).format(value);
+}
   
   onMounted(()=>{
     data('earrings'),

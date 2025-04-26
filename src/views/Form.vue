@@ -2,7 +2,7 @@
   <div class="bg-fixed q-pa-lg flex flex-center form-container">
     <q-card class="q-pa-md q-mx-auto full-width card-form" style="max-width: 800px;">
       <!-- Imagen de la carrera -->
-      <q-img src="/banner_form.jpg" class="q-mb-md" style="border-radius: 0px;" />
+      <q-img src="/banner_form.png" class="q-mb-md" style="border-radius: 0px;" />
 
       <!-- QForm para validación -->
       <q-form @submit="onSubmit" @reset="onReset" ref="formRef">
@@ -399,7 +399,7 @@
   <q-btn
     label="Inscribirme"
     :loading="loading"
-    color="primary"
+    color="secondary"
     type="submit"
     unelevated
     no-caps
@@ -614,7 +614,7 @@ function openLink(url) {
 }
 
 h4 {
-  background-image: url("/fondoo.png");
+  background-image: url("/banner_h4.png");
   background-repeat: no-repeat;
   background-size: cover;
   color: #fffdfd;
@@ -635,7 +635,7 @@ form label {
 }
 
 .footer-form{
-  background-image: url("/fondoo.png");
+  background-image: url("/banner_h4.png");
   background-repeat: no-repeat;
   background-size: cover;
   color: white;
