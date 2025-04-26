@@ -2,11 +2,88 @@
   <div class="bg-fixed q-pa-lg flex flex-center form-container">
     <q-card class="q-pa-md q-mx-auto full-width card-form" style="max-width: 800px;">
       <!-- Imagen de la carrera -->
-      <q-img src="/RUN-TOU.png" class="q-mb-md " style="border-radius: 0px; " />
+      <q-img src="/banner_form.jpg" class="q-mb-md" style="border-radius: 0px;" />
 
       <!-- QForm para validación -->
       <q-form @submit="onSubmit" @reset="onReset" ref="formRef">
 
+        <h4 class="text-bold q-mb-md text-h5">INFORMACIÓN INSCRIPCIÓN</h4>
+        <q-card
+  class=" q-mb-md col-12 q-pa-md shadow-2 " style="margin: 30px 0px ;">
+  <p class="text-bold text-h6 text-center text-negative">💲Valor Inscripción💲</p>
+ 
+  <div class="flex flex-center q-mt-md">
+  <div class="row items-center q-col-gutter-md q-pa-md ">
+    
+    <!-- Categoria Juvenil -->
+    <div class="col-xs-12 col-sm-6 row no-wrap items-center ">
+      <q-img
+        src="https://cdn-icons-png.freepik.com/512/3885/3885009.png?ga=GA1.1.2009471626.1731785676"
+        style="width: 60px; height: 60px;"
+        spinner-color="primary"
+      />
+      <div class="q-ml-md">
+        <div class="text-subtitle2 text-bold">Categoria <span class="text-secondary"> Juvenil </span></div>
+        <div class="text-caption">Femenino - Masculino  </div>
+        <div class="text-caption">Valor: <strong>20.000</strong></div>
+      </div>
+    </div>
+
+    <!-- Categoria Abierta -->
+    <div class="col-xs-12 col-sm-6 row no-wrap items-center categoria-card">
+      <q-img
+        src="https://cdn-icons-png.freepik.com/512/2829/2829825.png?ga=GA1.1.2009471626.1731785676"
+        style="width: 60px; height: 60px;"
+        spinner-color="positive"
+      />
+      <div class="q-ml-md">
+        <div class="text-subtitle2 text-bold">Categoria <span class="text-positive"> Abierta </span></div>
+        <div class="text-caption">Femenino - Masculino </div>
+        <div class="text-caption">Valor: <strong>25.000</strong></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+  <q-separator class="q-my-md" />
+  <p class="text-bold text-h6 text-center text-negative" style="margin: 0;">💲Valor Camiseta💲</p>
+<p class="text-center text-caption">Adicional al valor de la Inscripción</p>
+
+<div class="flex flex-center q-mt-md">
+  <div class="row items-center q-col-gutter-md q-pa-md ">
+    
+    <!-- Categoria Juvenil -->
+    <div class="col-xs-12 col-sm-6 row no-wrap items-center ">
+      <q-img
+        src="https://cdn-icons-png.freepik.com/512/1445/1445116.png?ga=GA1.1.2009471626.1731785676"
+        style="width: 60px; height: 60px;"
+        spinner-color="primary"
+      />
+      <div class="q-ml-md">
+        <div class="text-subtitle2 text-bold">Camiseta con Mangas</div>
+        <div class="text-caption">Valor: <strong>40.000</strong></div>
+      </div>
+    </div>
+
+    <!-- Categoria Abierta -->
+    <div class="col-xs-12 col-sm-6 row no-wrap items-center categoria-card">
+      <q-img
+        src="https://cdn-icons-png.freepik.com/512/1445/1445117.png?ga=GA1.1.2009471626.1731785676"
+        style="width: 60px; height: 60px;"
+        spinner-color="positive"
+      />
+      <div class="q-ml-md">
+        <div class="text-subtitle2 text-bold">Camiseta sin Mangas</div>
+        <div class="text-caption">Valor: <strong>35.000</strong></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+</q-card>
         <!-- Sección 1: Datos del participante -->
         <div>
           <h4 class="text-bold q-mb-md text-h5">DATOS DEL PARTICIPANTE</h4>
@@ -25,7 +102,12 @@
             <div class="col-12 col-md-6 displayBlack">
               <div class="form-field">
                 <label for="documento">Número de documento <span class="text-negative">*</span></label>
-                <q-input filled dense v-model="form.documentNumber" :rules="[val => !!val || 'Campo requerido']" />
+                <q-input filled dense v-model="form.documentNumber" :rules="[
+    val => !!val || 'Campo requerido',
+    val => /^[0-9]+$/.test(val) || 'Solo se permiten números',
+    val => val.length >= 6 || 'Debe tener al menos 6 dígitos',
+    val => val.length <= 12 || 'No debe superar los 12 dígitos'
+  ]" />
               </div>
               <div class="form-field">
                 <label for="phone">Teléfono <span class="text-negative">*</span></label>
@@ -117,7 +199,7 @@
             <div class="col-12 col-md-6 displayBlack">
               <div class="form-field">
                 <label for="gender">Género <span class="text-negative">*</span></label>
-                <q-select filled dense v-model="form.gender" :options="['Femenino', 'Masculino', 'Otro']"
+                <q-select filled dense v-model="form.gender" :options="['Femenino', 'Masculino']"
                   :rules="[val => !!val || 'Campo requerido']" />
               </div>
             </div>
@@ -145,7 +227,7 @@
             <div class="col-12 col-md-6 displayBlack">
               <div class="form-field">
                 <label for="categoria">Categoría <span class="text-negative">*</span></label>
-                <q-select filled dense v-model="form.category" :options="['Juvenil', 'Élite', 'Master', 'Senior']"
+                <q-select filled dense v-model="form.category" :options="['Juvenil', 'Abierta']"
                   :rules="[val => !!val || 'Campo requerido']" />
               </div>
             </div>
@@ -173,6 +255,22 @@
     </div>
 
     <!-- Talla de camiseta (solo si la respuesta es "Si") -->
+
+    <div class="col-12 displayBlack"
+      v-if="form.shirt === 'Si'">
+      <div class="form-field">
+        <label for="talla">¿Desea la camiseta con Mangas? <span class="text-negative">*</span></label>
+        <q-select
+          filled
+          dense
+          v-model="form.shirtWithSleeves"
+          :options="['Si', 'No']"
+          @update:model-value="total"
+          :rules="[val => !!val || 'Campo requerido']"
+        />
+      </div>
+    </div>
+
     <div
       class="col-12  displayBlack"
       v-if="form.shirt === 'Si'">
@@ -208,7 +306,7 @@
   <div class="column items-end text-bold ">
     <div class="text-info">{{ formatPrice(priceInscription) }}</div>
     <div class="text-info" v-show="form.shirt === 'Si'">{{ formatPrice(priceShirt) }}</div>
-    <div class="text-secondary" style="margin-top:5px ;">{{ formatPrice(form.total || 25000 ) }}</div>
+    <div class="text-secondary" style="margin-top:5px ;">{{ formatPrice(total) }}</div>
   </div>
 </div>
 
@@ -361,7 +459,7 @@
 </template>
 
 <script setup>
-import { ref, toRaw} from 'vue'
+import { ref, watch, computed} from 'vue'
 import { postData } from '../services/apiClient.js'
 import { Notify } from 'quasar'
 const formRef = ref();
@@ -371,22 +469,34 @@ const loading = ref(false);
 const loading2 = ref(false);
 const showSpam = ref(false)
 const showConfirmation = ref(false);
-const priceShirt = ref(35000)
-const priceInscription = ref(25000)
 
+const priceInscription = computed(() => {
+  return form.value.category === 'Juvenil' ? 20000 : 25000
+})
+
+const priceShirt = computed(() => {
+  if (form.value.shirt === 'No') return 0
+  return form.value.shirtWithSleeves === 'Si' ? 40000 : 35000
+})
 function OpenSearch() {
   fileInput.value.click()
   loading2.value = true;
 }
 
-function total(value) {
-  if (value === "Si") {
-    form.value.total = priceInscription.value + priceShirt.value;
+
+
+const total = computed(() => {
+  if (!form.value.category) return 0; // aún no escoge categoría
+  if (!form.value.shirt) return priceInscription.value; // aún no escoge si quiere camiseta
+
+  if (form.value.shirt === "Si") {
+    return priceInscription.value + priceShirt.value;
   } else {
-    form.value.total = priceInscription.value;
+    return priceInscription.value;
   }
-  console.log("Total actualizado:", form.value.total);
-}
+});
+
+
 
 
 async function searchImage(event) {
@@ -419,6 +529,7 @@ const onSubmit = async () => {
     loading.value = true
     const success = await formRef.value.validate()
     if (success) {
+      form.value.total = total.value;
       console.log('Formulario válido:', form.value)
       const formData = new FormData()
       formData.append('image', form.value.image)
