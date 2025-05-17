@@ -359,6 +359,16 @@
             </q-item>
             </div>
 
+            <div class="col-12 col-sm-6">
+            <q-item>
+              <q-item-section avatar><q-icon name="checkroom" color="primary" /></q-item-section>
+              <q-item-section>
+                <q-item-label class="text-bold">Talla camiseta</q-item-label>
+                <q-item-label caption>{{datosSeleccionados.shirtSize }}</q-item-label>
+              </q-item-section>
+            </q-item>
+            </div>
+
           <div class="col-12 ">
             <q-item>
               <q-item-section avatar><q-icon name="attach_money" color="primary" /></q-item-section>
@@ -471,6 +481,7 @@
       { name: 'category', label: 'Categoría', field: 'category', align: 'center' },
       { name: 'shirt', label: 'Camiseta', field: 'shirt', align: 'center' },
       {name: 'shirtWithSleeves', label: 'C. con Mangas',field: 'shirtWithSleeves',align: 'center'},
+      {name:'shirtSize', label: 'Talla Camiseta', field: 'shirtSize', align: 'center'},
       { name: 'total', label: 'Total', field: 'total', align: 'center' },
       { name: 'actions', label: 'Acciones', field: 'actions', align: 'center' }
  ]
