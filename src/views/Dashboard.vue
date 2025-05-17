@@ -45,7 +45,7 @@
     />
   </div>
 
-    <!--<div class="column items-center">
+    <div class="column items-center">
     <q-btn 
       color="positive"
       icon="download"
@@ -53,13 +53,13 @@
       @click="downloadExcel()"
       style="font-weight: bold;"
     />
-  </div>-->
+  </div>
   
 </q-card-section>
         <q-card>
             
 
-         
+        
             <q-card-section class="row items-center q-col-gutter-md q-pb-none">
   <!-- Título -->
   <div class="col-12 col-md-4 text-center">
@@ -457,6 +457,7 @@
   
   <script setup>
   import { ref, onMounted, computed } from 'vue'
+  import apiClient from '../plugins/axios.js'
   import { getData, postData, putData } from '../services/apiClient.js'
   import { Notify } from 'quasar'
   import { date } from 'quasar'
@@ -503,27 +504,22 @@ const rowRechazo = ref(null)
 
 async function downloadExcel() {
   try {
-    const response = await fetch("/inscription/report"); 
+    const response = await apiClient.get("/inscription/report",{
+      responseType: "blob", // ¡Importante! Esto hace que Axios devuelva un Blob
+    });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error("Error al traer el reporte:", errorData);
-      return;
-    }
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "inscripciones.xlsx";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
 
-    const blob = await response.blob(); 
-    const url = window.URL.createObjectURL(blob); 
-    const a = document.createElement('a'); 
-    a.href = url; 
-    a.download = 'inscriptions.xlsx'; 
-    document.body.appendChild(a); 
-    a.click(); 
-    document.body.removeChild(a); 
-    window.URL.revokeObjectURL(url); 
-
-    console.log("Reporte descargado con éxito");
+    console.log("✅ Reporte descargado con éxito");
   } catch (error) {
-    console.error("Error al traer el reporte:", error);
+    console.error("❌ Error al descargar el reporte:", error);
   }
 }
 
