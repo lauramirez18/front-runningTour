@@ -44,12 +44,22 @@
       style="font-weight: bold;"
     />
   </div>
+
+    <!--<div class="column items-center">
+    <q-btn 
+      color="positive"
+      icon="download"
+      label="Excel"
+      @click="downloadExcel()"
+      style="font-weight: bold;"
+    />
+  </div>-->
   
 </q-card-section>
         <q-card>
             
 
-        
+         
             <q-card-section class="row items-center q-col-gutter-md q-pb-none">
   <!-- Título -->
   <div class="col-12 col-md-4 text-center">
@@ -490,6 +500,33 @@
 const dialogMotivo = ref(false)
 const rowRechazo = ref(null)
   
+
+async function downloadExcel() {
+  try {
+    const response = await fetch("/inscription/report"); 
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error("Error al traer el reporte:", errorData);
+      return;
+    }
+
+    const blob = await response.blob(); 
+    const url = window.URL.createObjectURL(blob); 
+    const a = document.createElement('a'); 
+    a.href = url; 
+    a.download = 'inscriptions.xlsx'; 
+    document.body.appendChild(a); 
+    a.click(); 
+    document.body.removeChild(a); 
+    window.URL.revokeObjectURL(url); 
+
+    console.log("Reporte descargado con éxito");
+  } catch (error) {
+    console.error("Error al traer el reporte:", error);
+  }
+}
+
 
   const filteredRows = computed(() => {
   if (!searchDni.value) return rows.value
