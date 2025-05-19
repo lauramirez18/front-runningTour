@@ -389,6 +389,7 @@
     type="file"
     accept="image/*"
     style="display: none"
+    @cancel="cancelImage()"
     @change="searchImage"
   />
 </div>
@@ -469,6 +470,7 @@ const loading = ref(false);
 const loading2 = ref(false);
 const showSpam = ref(false)
 const showConfirmation = ref(false);
+const closeModalImage = ref(false);
 
 const priceInscription = computed(() => {
   return form.value.category === 'Juvenil' ? 20000 : 25000
@@ -478,11 +480,6 @@ const priceShirt = computed(() => {
   if (form.value.shirt === 'No') return 0
   return form.value.shirtWithSleeves === 'Si' ? 40000 : 35000
 })
-function OpenSearch() {
-  fileInput.value.click()
-  loading2.value = true;
-}
-
 
 
 const total = computed(() => {
@@ -496,18 +493,27 @@ const total = computed(() => {
   }
 });
 
+function cancelImage(){
+  loading2.value = false
+} 
 
-
+function OpenSearch() {
+  fileInput.value.click()
+  closeModalImage.value = true;
+  loading2.value = true;
+}
 
 async function searchImage(event) {
   try {
     const file = event.target.files[0]
+    console.log('event ', event);
     if (file) {
       form.value.image = file
       Notify.create({
         type: 'positive',
         message: 'Imagen cargada corretamente'
       })
+
     }
   } catch (error) {
     Notify.create({
@@ -520,7 +526,6 @@ async function searchImage(event) {
     loading2.value = false
     showSpam.value = true
   }
-
 }
 
 
