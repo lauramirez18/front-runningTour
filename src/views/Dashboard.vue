@@ -44,6 +44,16 @@
       style="font-weight: bold;"
     />
   </div>
+
+    <div class="column items-center">
+    <q-btn 
+      color="positive"
+      icon="download"
+      label="Excel"
+      @click="downloadExcel()"
+      style="font-weight: bold;"
+    />
+  </div>
   
 </q-card-section>
         <q-card>
@@ -457,6 +467,7 @@
   
   <script setup>
   import { ref, onMounted, computed } from 'vue'
+  import apiClient from '../plugins/axios.js'
   import { getData, postData, putData } from '../services/apiClient.js'
   import { Notify } from 'quasar'
   import { date } from 'quasar'
@@ -502,6 +513,28 @@ const dialogMotivo = ref(false)
 const rowRechazo = ref(null)
   
 
+async function downloadExcel() {
+  try {
+    const response = await apiClient.get("/inscription/report",{
+      responseType: "blob", // ¡Importante! Esto hace que Axios devuelva un Blob
+    });
+
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "inscripciones.xlsx";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+
+    console.log("✅ Reporte descargado con éxito");
+  } catch (error) {
+    console.error("❌ Error al descargar el reporte:", error);
+  }
+}
+
+
   const filteredRows = computed(() => {
   if (!searchDni.value) return rows.value
   const search = searchDni.value.toLowerCase()
@@ -538,7 +571,7 @@ async function confirmarRechazo() {
       motivoRechazo.value // Aquí también se lo pasas si tu backend lo acepta
     )
 
-    alert('positive', `Rechazo guardado y correo enviado a ${row.email}`)
+   /*  alert('positive', `Rechazo guardado y correo enviado a ${row.email}`) */
 
     data(btnStatus.value)
   } catch (error) {
@@ -569,7 +602,7 @@ async function confirmarRechazo() {
       alert('positive',`Se a enviado un correo de ${title} a ${to}`)
       }
       else{
-      alert('negative',`Se a enviado un correo de ${title} a ${to}`)
+      alert('positive',`Se a enviado un correo de ${title} a ${to}`)
       }
       console.log(response.message);
     console.log("alerta tipo", status);
