@@ -3,6 +3,7 @@ import  MainLayout from '../layouts/MainLayout.vue'
 import Dashboard from '../views/Dashboard.vue'
 import Login from '../views/Login.vue'
 import Form from '../views/Form.vue'
+import ClosedForm from '../views/ClosedForm.vue'
 
 const routes = [
     {
@@ -14,7 +15,7 @@ const routes = [
         path: '',
         component: MainLayout,
         children:[
-            {
+              {
                 path: '',
                 name: 'form',
                 component: Form
@@ -30,6 +31,12 @@ const routes = [
                 name: 'Form',
                 component: Form,
             },
+            
+           /*  {
+                path:'/form',
+                name: 'closedForm',
+                component:  ClosedForm,
+            }, */
         ]               
 
     },
