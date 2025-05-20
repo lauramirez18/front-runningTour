@@ -51,6 +51,7 @@
       icon="download"
       label="Excel"
       @click="downloadExcel()"
+      :loading="loading"
       style="font-weight: bold;"
     />
   </div>
@@ -466,7 +467,7 @@
   </template>
   
   <script setup>
-  import { ref, onMounted, computed } from 'vue'
+  import { ref, onMounted, computed, normalizeClass } from 'vue'
   import apiClient from '../plugins/axios.js'
   import { getData, postData, putData } from '../services/apiClient.js'
   import { Notify } from 'quasar'
@@ -511,9 +512,11 @@
   const motivoRechazo = ref('')
 const dialogMotivo = ref(false)
 const rowRechazo = ref(null)
+const loading = ref(false)
   
 
 async function downloadExcel() {
+  loading.value = true
   try {
     const response = await apiClient.get("/inscription/report",{
       responseType: "blob", // ¡Importante! Esto hace que Axios devuelva un Blob
@@ -527,11 +530,16 @@ async function downloadExcel() {
     a.click();
     document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
+    Notify.create({
+      type: 'positive',
+      message: '✅ Reporte descargado con éxito'
+    })
 
     console.log("✅ Reporte descargado con éxito");
   } catch (error) {
     console.error("❌ Error al descargar el reporte:", error);
   }
+  loading.value = false
 }
 
 
