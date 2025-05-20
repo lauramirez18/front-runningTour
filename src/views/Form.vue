@@ -46,14 +46,14 @@
   </div>
 </div>
 
-  <q-separator class="q-my-md" />
+ <!--  <q-separator class="q-my-md" />
   <p class="text-bold text-h6 text-center text-negative" style="margin: 0;">💲Valor Camiseta💲</p>
 <p class="text-center text-caption">Adicional al valor de la Inscripción</p>
 
 <div class="flex flex-center q-mt-md">
   <div class="row items-center q-col-gutter-md q-pa-md ">
     
-    <!-- Categoria Juvenil -->
+   
     <div class="col-xs-12 col-sm-6 row no-wrap items-center ">
       <q-img
         src="https://cdn-icons-png.freepik.com/512/1445/1445116.png?ga=GA1.1.2009471626.1731785676"
@@ -66,7 +66,7 @@
       </div>
     </div>
 
-    <!-- Categoria Abierta -->
+   
     <div class="col-xs-12 col-sm-6 row no-wrap items-center categoria-card">
       <q-img
         src="https://cdn-icons-png.freepik.com/512/1445/1445117.png?ga=GA1.1.2009471626.1731785676"
@@ -82,7 +82,7 @@
   </div>
 </div>
 
-
+ -->
 </q-card>
         <!-- Sección 1: Datos del participante -->
         <div>
@@ -240,7 +240,7 @@
  
   <div class="row q-col-gutter-md">
     <!-- Pregunta si quiere camiseta -->
-    <div class="col-12 displayBlack">
+   <!--  <div class="col-12 displayBlack">
       <div class="form-field">
         <label for="talla">¿Desea adquirir camiseta del evento? <span class="text-negative">*</span></label>
         <q-select
@@ -253,10 +253,10 @@
         />
       </div>
     </div>
-
+ -->
     <!-- Talla de camiseta (solo si la respuesta es "Si") -->
 
-    <div class="col-12 displayBlack"
+    <!-- <div class="col-12 displayBlack"
       v-if="form.shirt === 'Si'">
       <div class="form-field">
         <label for="talla">¿Desea la camiseta con Mangas? <span class="text-negative">*</span></label>
@@ -269,9 +269,9 @@
           :rules="[val => !!val || 'Campo requerido']"
         />
       </div>
-    </div>
+    </div> -->
 
-    <div
+    <!-- <div
       class="col-12  displayBlack"
       v-if="form.shirt === 'Si'">
       <div class="form-field">
@@ -284,7 +284,7 @@
           :rules="[val => !!val || 'Campo requerido']"
         />
       </div>
-    </div>
+    </div> -->
     <!-- totales -->
 <q-space />
 <div class="row justify-end q-mt-md q-gutter-md">

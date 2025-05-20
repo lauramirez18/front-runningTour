@@ -26,7 +26,7 @@
     <q-footer elevated class="bg-dark text-grey-9 q-pa-sm text-center text-caption">
   <q-toolbar class="q-pa-none justify-center">
     <div class="text-caption text-center">
-      |Formulario Desarrollado por <strong>Andres Felipe Sierra</strong> y <strong>Laura Ramirez</strong> | © {{ new Date().getFullYear() }}
+      |Formulario Desarrollado por <strong>Andres Felipe Sierra</strong> y <strong>Laura Ramirez Avendaño</strong> | © {{ new Date().getFullYear() }}
     </div>
   </q-toolbar>
 </q-footer>
