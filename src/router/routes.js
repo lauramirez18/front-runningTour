@@ -16,27 +16,29 @@ const routes = [
         component: MainLayout,
         children: [
             {
-                path: "",
-                name: "form",
-                component: Form,
+                path: '',
+                name: 'closeForm',
+                component: ClosedForm,
             },
+
             {
-                path: "/dashboard",
-                name: "Dashboard",
+                path: '/dashboard',
+                name: 'Dashboard',
                 component: Dashboard,
             },
 
-            {
-                path: "/form",
-                name: "Form",
+            /*  {
+                path:'/form',
+                name: 'Form',
                 component: Form,
+             }, */
+
+            {
+                path: '/form',
+                name: 'closedForm',
+                component: ClosedForm,
             },
 
-            /*  {
-                      path:'/form',
-                      name: 'closedForm',
-                      component:  ClosedForm,
-                  }, */
         ],
     },
 ];
