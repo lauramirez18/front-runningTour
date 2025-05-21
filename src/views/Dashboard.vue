@@ -55,6 +55,17 @@
       style="font-weight: bold;"
     />
   </div>
+   <div class="column items-center">
+    <q-btn 
+      label="Enviar correos de entrega de kit"
+      color="primary"
+      :loading="enviando"
+      @click="enviarCorreos"
+    />
+    <q-banner v-if="mensaje" class="q-mt-md" dense>
+      {{ mensaje }}
+    </q-banner>
+  </div>
   
 </q-card-section>
         <q-card>
@@ -513,6 +524,25 @@
 const dialogMotivo = ref(false)
 const rowRechazo = ref(null)
 const loading = ref(false)
+const enviando = ref(false)
+const mensaje = ref('')
+
+
+// Enviar correos de entrega de kit
+const enviarCorreos = async () => {
+  enviando.value = true
+  mensaje.value = ''
+  try {
+    const res = await postData('/emailKit/enviar-correos-kit')
+    mensaje.value = res
+  } catch (err) {
+    mensaje.value = '❌ Ocurrió un error al enviar los correos.'
+    console.error(err)
+  } finally {
+    enviando.value = false
+  }
+}
+
   
 
 async function downloadExcel() {
