@@ -17,26 +17,27 @@ const routes = [
         children:[
               {
                 path: '',
-                name: 'form',
-                component: Form
+                name: 'closeForm',
+                component: ClosedForm,
               },
+              
             {
                 path:'/dashboard',
                 name: 'Dashboard',
                 component: Dashboard,
             },
             
-            {
+           /*  {
                 path:'/form',
                 name: 'Form',
                 component: Form,
-            },
+            }, */
             
-           /*  {
+            {
                 path:'/form',
                 name: 'closedForm',
                 component:  ClosedForm,
-            }, */
+            }, 
         ]               
 
     },
