@@ -19,6 +19,7 @@
       color="warning"
       icon="hourglass_empty"
       label="Pendientes"
+      :loading = loadingEarrings
       @click="data('earrings'); btnStatus = 'earrings'"
       style="font-weight: bold;"
       
@@ -30,6 +31,7 @@
       color="positive"
       icon="check"
       label="Aprobadas"
+      :loading = loadingApproved
       @click="data('approved'); btnStatus = 'approved'"
       style="font-weight: bold;"
     />
@@ -40,6 +42,7 @@
       color="negative"
       icon="close"
       label="Rechazadas"
+      :loading = loadingRejected
       @click="data('rejected'); btnStatus = 'rejected'"
       style="font-weight: bold;"
     />
@@ -62,9 +65,7 @@
       :loading="enviando"
       @click="enviarCorreos"
     />
-    <q-banner v-if="mensaje" class="q-mt-md" dense>
-      {{ mensaje }}
-    </q-banner>
+    
   </div>
   
 </q-card-section>
@@ -526,18 +527,36 @@ const rowRechazo = ref(null)
 const loading = ref(false)
 const enviando = ref(false)
 const mensaje = ref('')
+const loadingApproved = ref(false)
+const loadingRejected = ref(false);
+const loadingEarrings = ref(false);
 
 
 // Enviar correos de entrega de kit
 const enviarCorreos = async () => {
   enviando.value = true
   mensaje.value = ''
+  
   try {
     const res = await postData('/emailKit/enviar-correos-kit')
     mensaje.value = res
+    console.log(res, 'correos enviados')
+
+    Notify.create({
+      type: 'positive',
+      message: res,
+      timeout: 6000,
+      position: 'top'
+    })
   } catch (err) {
     mensaje.value = '❌ Ocurrió un error al enviar los correos.'
-    console.error(err)
+      Notify.create({
+      type: 'negative',
+      message: '❌ Error al enviar los correos. Inténtalo nuevamente o revisa la conexión.',
+      timeout: 6000,
+      position: 'top'
+    })
+    console.error(err, 'error enviando correos')
   } finally {
     enviando.value = false
   }
@@ -687,6 +706,7 @@ async function confirmarRechazo() {
 
   async function data(state) {
     try {
+      state === 'earrings' ? loadingEarrings.value = true : state === 'approved' ? loadingApproved.value = true : loadingRejected.value = true ;
       const response = await getData(`/inscription/data/${state}`)
       rows.value = response.data
       registeredParticipants.value = response.data.length
@@ -702,6 +722,10 @@ async function confirmarRechazo() {
       tableTittle.value = titles[state] || 'Panel de Inscripciones pendientes'
     } catch (error) {
       console.error('Error cargando inscripciones:', error)
+    }finally{
+      loadingApproved.value = false;
+      loadingEarrings.value = false;
+      loadingRejected.value = false;
     }
   }
 
