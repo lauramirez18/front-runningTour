@@ -65,9 +65,7 @@
       :loading="enviando"
       @click="enviarCorreos"
     />
-    <q-banner v-if="mensaje" class="q-mt-md" dense>
-      {{ mensaje }}
-    </q-banner>
+    
   </div>
   
 </q-card-section>
@@ -538,12 +536,27 @@ const loadingEarrings = ref(false);
 const enviarCorreos = async () => {
   enviando.value = true
   mensaje.value = ''
+  
   try {
     const res = await postData('/emailKit/enviar-correos-kit')
     mensaje.value = res
+    console.log(res, 'correos enviados')
+
+    Notify.create({
+      type: 'positive',
+      message: res,
+      timeout: 6000,
+      position: 'top'
+    })
   } catch (err) {
     mensaje.value = '❌ Ocurrió un error al enviar los correos.'
-    console.error(err)
+      Notify.create({
+      type: 'negative',
+      message: '❌ Error al enviar los correos. Inténtalo nuevamente o revisa la conexión.',
+      timeout: 6000,
+      position: 'top'
+    })
+    console.error(err, 'error enviando correos')
   } finally {
     enviando.value = false
   }

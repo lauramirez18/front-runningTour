@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const clientFactus = axios.create({
-     baseURL: "http://localhost:3999/runTour", 
-     /* baseURL: "https://runtour-production.up.railway.app/runtour" */
+    /*  baseURL: "http://localhost:3999/runTour",  */
+      baseURL: "https://runtour-production.up.railway.app/runtour" 
 });
 
 clientFactus.interceptors.request.use(
