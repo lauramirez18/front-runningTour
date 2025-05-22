@@ -1,49 +1,50 @@
-import { createRouter, createWebHistory } from "vue-router";
-import MainLayout from "../layouts/MainLayout.vue";
-import Dashboard from "../views/Dashboard.vue";
-import Login from "../views/Login.vue";
-import Form from "../views/Form.vue";
-import ClosedForm from "../views/ClosedForm.vue";
+import { createRouter, createWebHistory } from 'vue-router'
+import  MainLayout from '../layouts/MainLayout.vue'
+import Dashboard from '../views/Dashboard.vue'
+import Login from '../views/Login.vue'
+import Form from '../views/Form.vue'
+import ClosedForm from '../views/ClosedForm.vue'
 
 const routes = [
     {
-        path: "/login",
-        name: "Login",
-        component: Login,
+        path: '/login',
+        name: 'Login',
+        component:Login,
     },
     {
-        path: "",
+        path: '',
         component: MainLayout,
-        children: [
-            {
+        children:[
+              {
                 path: '',
                 name: 'closeForm',
                 component: ClosedForm,
-            },
-
+              },
+              
             {
-                path: '/dashboard',
+                path:'/dashboard',
                 name: 'Dashboard',
                 component: Dashboard,
             },
-
-            /*  {
+            
+           /*  {
                 path:'/form',
                 name: 'Form',
                 component: Form,
-             }, */
-
+            }, */
+            
             {
-                path: '/form',
+                path:'/form',
                 name: 'closedForm',
-                component: ClosedForm,
-            },
+                component:  ClosedForm,
+            }, 
+        ]               
 
-        ],
     },
-];
+    
+]
 
 export const router = createRouter({
     history: createWebHistory(),
-    routes,
-});
+    routes
+})
