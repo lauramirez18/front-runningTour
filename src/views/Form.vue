@@ -2,88 +2,12 @@
   <div class="bg-fixed q-pa-lg flex flex-center form-container">
     <q-card class="q-pa-md q-mx-auto full-width card-form" style="max-width: 800px;">
       <!-- Imagen de la carrera -->
-      <q-img src="/banner_form.png" class="q-mb-md" style="border-radius: 0px;" />
+      <q-img src="/banner_formm.jpg" class="q-mb-md" style="border-radius: 0px;" />
 
       <!-- QForm para validación -->
       <q-form @submit="onSubmit" @reset="onReset" ref="formRef">
 
-        <h4 class="text-bold q-mb-md text-h5">INFORMACIÓN INSCRIPCIÓN</h4>
-        <q-card
-  class=" q-mb-md col-12 q-pa-md shadow-2 " style="margin: 30px 0px ;">
-  <p class="text-bold text-h6 text-center text-negative">💲Valor Inscripción💲</p>
- 
-  <div class="flex flex-center q-mt-md">
-  <div class="row items-center q-col-gutter-md q-pa-md ">
-    
-    <!-- Categoria Juvenil -->
-    <div class="col-xs-12 col-sm-6 row no-wrap items-center ">
-      <q-img
-        src="https://cdn-icons-png.freepik.com/512/3885/3885009.png?ga=GA1.1.2009471626.1731785676"
-        style="width: 60px; height: 60px;"
-        spinner-color="primary"
-      />
-      <div class="q-ml-md">
-        <div class="text-subtitle2 text-bold">Categoria <span class="text-secondary"> Juvenil </span></div>
-        <div class="text-caption">Femenino - Masculino  </div>
-        <div class="text-caption">Valor: <strong>20.000</strong></div>
-      </div>
-    </div>
 
-    <!-- Categoria Abierta -->
-    <div class="col-xs-12 col-sm-6 row no-wrap items-center categoria-card">
-      <q-img
-        src="https://cdn-icons-png.freepik.com/512/2829/2829825.png?ga=GA1.1.2009471626.1731785676"
-        style="width: 60px; height: 60px;"
-        spinner-color="positive"
-      />
-      <div class="q-ml-md">
-        <div class="text-subtitle2 text-bold">Categoria <span class="text-positive"> Abierta </span></div>
-        <div class="text-caption">Femenino - Masculino </div>
-        <div class="text-caption">Valor: <strong>25.000</strong></div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
- <!--  <q-separator class="q-my-md" />
-  <p class="text-bold text-h6 text-center text-negative" style="margin: 0;">💲Valor Camiseta💲</p>
-<p class="text-center text-caption">Adicional al valor de la Inscripción</p>
-
-<div class="flex flex-center q-mt-md">
-  <div class="row items-center q-col-gutter-md q-pa-md ">
-    
-   
-    <div class="col-xs-12 col-sm-6 row no-wrap items-center ">
-      <q-img
-        src="https://cdn-icons-png.freepik.com/512/1445/1445116.png?ga=GA1.1.2009471626.1731785676"
-        style="width: 60px; height: 60px;"
-        spinner-color="primary"
-      />
-      <div class="q-ml-md">
-        <div class="text-subtitle2 text-bold">Camiseta con Mangas</div>
-        <div class="text-caption">Valor: <strong>40.000</strong></div>
-      </div>
-    </div>
-
-   
-    <div class="col-xs-12 col-sm-6 row no-wrap items-center categoria-card">
-      <q-img
-        src="https://cdn-icons-png.freepik.com/512/1445/1445117.png?ga=GA1.1.2009471626.1731785676"
-        style="width: 60px; height: 60px;"
-        spinner-color="positive"
-      />
-      <div class="q-ml-md">
-        <div class="text-subtitle2 text-bold">Camiseta sin Mangas</div>
-        <div class="text-caption">Valor: <strong>35.000</strong></div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
- -->
-</q-card>
         <!-- Sección 1: Datos del participante -->
         <div>
           <h4 class="text-bold q-mb-md text-h5">DATOS DEL PARTICIPANTE</h4>
@@ -192,7 +116,7 @@
             <div class="col-12 col-md-6 displayBlack">
               <div class="form-field">
                 <label for="distancia">Distancia</label>
-                <q-select filled dense v-model="form.distance" :options="['5K']"
+                <q-select filled dense v-model="form.distance" :options="['6K' , '12K', ]"
                   :rules="[val => !!val || 'Campo requerido']" />
               </div>
             </div>
@@ -219,16 +143,28 @@
             </div>
             <div class="col-12 col-md-6 displayBlack">
               <div class="form-field">
-                <label for="edad">Edad <span class="text-negative">*</span></label>
-                <q-input filled dense type="number" v-model="form.age" :rules="[val => !!val || 'Campo requerido']" />
+                <label for="edad">Edad</label>
+                <q-input filled dense v-model="calculatedAge" readonly />
               </div>
             </div>
            
             <div class="col-12 col-md-6 displayBlack">
               <div class="form-field">
-                <label for="categoria">Categoría <span class="text-negative">*</span></label>
-                <q-select filled dense v-model="form.category" :options="['Juvenil', 'Abierta']"
-                  :rules="[val => !!val || 'Campo requerido']" />
+                <label for="categoria">Categoría</label>
+                <q-select filled dense v-model="calculatedCategory" readonly />
+              </div>
+            </div>
+             <div class="col-12  displayBlack">
+              <div class="form-field">
+                 <label for="talla">Talla de camiseta</label>
+        <q-select
+          filled
+          dense
+          v-model="form.shirtSize"
+          :options="['XS', 'S', 'M', 'L', 'XL', 'XXL']"
+          :rules="[val => !!val || 'Campo requerido']"
+        />
+
               </div>
             </div>
           </div>
@@ -239,108 +175,65 @@
     DATOS DE PAGO</h4>
  
   <div class="row q-col-gutter-md">
-    <!-- Pregunta si quiere camiseta -->
-   <!--  <div class="col-12 displayBlack">
-      <div class="form-field">
-        <label for="talla">¿Desea adquirir camiseta del evento? <span class="text-negative">*</span></label>
-        <q-select
-          filled
-          dense
-          v-model="form.shirt"
-          :options="['Si', 'No']"
-          @update:model-value="total"
-          :rules="[val => !!val || 'Campo requerido']"
-        />
-      </div>
-    </div>
- -->
-    <!-- Talla de camiseta (solo si la respuesta es "Si") -->
-
-    <!-- <div class="col-12 displayBlack"
-      v-if="form.shirt === 'Si'">
-      <div class="form-field">
-        <label for="talla">¿Desea la camiseta con Mangas? <span class="text-negative">*</span></label>
-        <q-select
-          filled
-          dense
-          v-model="form.shirtWithSleeves"
-          :options="['Si', 'No']"
-          @update:model-value="total"
-          :rules="[val => !!val || 'Campo requerido']"
-        />
-      </div>
-    </div> -->
-
-    <!-- <div
-      class="col-12  displayBlack"
-      v-if="form.shirt === 'Si'">
-      <div class="form-field">
-        <label for="talla">Talla de camiseta</label>
-        <q-select
-          filled
-          dense
-          v-model="form.shirtSize"
-          :options="['XS', 'S', 'M', 'L', 'XL', 'XXL']"
-          :rules="[val => !!val || 'Campo requerido']"
-        />
-      </div>
-    </div> -->
+  
     <!-- totales -->
 <q-space />
-<div class="row justify-end q-mt-md q-gutter-md">
-  <!-- Columna de etiquetas -->
-  <div class="column items-end text-right">
-    <div class="text-bold text-info">Valor Inscripción</div>
-    <div class="text-bold text-info" v-show="form.shirt === 'Si'">Valor Adicional Camiseta</div>
-    <div class="text-bold text-secondary text-h6">Valor Total</div>
-  </div>
-
-  <!-- Columna de separadores, opcional -->
-  <div class="column items-center text-bold">
-    <div>➡️</div>
-    <div v-show="form.shirt === 'Si'">➡️</div>
-    <div style="margin-top: 5px;">➡️</div>
-  </div>
-
-  <!-- Columna de valores -->
-  <div class="column items-end text-bold ">
-    <div class="text-info">{{ formatPrice(priceInscription) }}</div>
-    <div class="text-info" v-show="form.shirt === 'Si'">{{ formatPrice(priceShirt) }}</div>
-    <div class="text-secondary" style="margin-top:5px ;">{{ formatPrice(total) }}</div>
+<div class="row justify-center q-mt-md">
+  <div class="column items-center q-gutter-y-sm">
+    <div class="text-h6 text-bold text-info">Valor Inscripción</div>
+    <div class="text-h4 text-bold text-secondary">
+      {{ formatPrice(priceInscription) }}
+    </div>
   </div>
 </div>
-
   </div>
   <q-card
-  class=" q-mb-md col-12 q-pa-md shadow-2 " style="margin: 30px 0px ;">
-  <p class="text-bold text-h6 text-center text-negative">⚠️Importante⚠️</p>
- 
-  <div class="row items-center q-col-gutter-md">
-    <!-- Nequi -->
-    <div class="col-xs-12 col-sm-6 row items-center">
+  class="q-mb-md q-pa-lg shadow-2"
+  style="margin: 30px 0px; border-radius: 10px;"
+>
+  <div class="flex flex-center q-mb-md">
+    <q-icon name="warning" size="md" color="warning" class="q-mr-sm" />
+    <span class="text-h6 text-bold text-positive">¡Importante!</span>
+  </div>
+
+  <div class="column items-center q-gutter-y-lg">
+    <div class="row items-center justify-center q-gutter-x-md">
       <q-img
-        src="https://d1yjjnpx0p53s8.cloudfront.net/styles/logo-thumbnail/s3/052021/nequi.jpg?czuScT8k4x122TD.nTrAG7ZQqCwQCdSW&itok=1TKWVgjS"
-        style="width: 50px; height: 50px; ;"
+        src="https://ribgo.davivienda.com/assets/images/logo/logo-davivienda.png"
+        style="width: 70px; height: 45px; object-fit: contain;"
         spinner-color="primary"
       />
-      <div class="q-ml-md">
-        <div class="text-subtitle2 text-bold">Pago por <span class="text-accent">Nequi </span> </div>
-        <div class="text-caption">Número: <strong >3164110047</strong></div>
-        <div class="text-caption">Titular: <strong>Cristian Vesga</strong></div>
+      <div class="column items-center text-center">
+        <div class="text-subtitle1 text-bold">
+          <span class="text-negative">Pago por Cuenta corriente Davivienda</span>
+        </div>
+        <div class="text-caption">N.°: <strong>047969994343</strong></div>
+        <div class="text-caption">
+          Titular: <strong>Centro Comercial San Gil Plaza</strong>
+        </div>
+        <div class="text-caption">NIT: <strong>900.667.347-7</strong></div>
+        <div class="text-caption q-mt-sm">
+          Al consignar, usa la referencia: <strong>Local 1</strong>.
+        </div>
       </div>
     </div>
 
-    <!-- Daviplata -->
-    <div class="col-xs-12 col-sm-6 row items-center">
+    <q-separator class="full-width" style="max-width: 300px;" />
+
+    <div class="row items-center justify-center q-gutter-x-md">
       <q-img
-        src="https://sunegocio.daviplata.com/sites/default/files/styles/original/public/2023-11/af2be4165905879.Y3JvcCwxNDAwLDEwOTUsMCwxNTI.png?itok=Fn_Y_HIf"
-        style="width: 50px; height: 40px;"
+        src="logoo.png"
+        style="width: 70px; height: 45px; object-fit: contain;"
         spinner-color="white"
       />
-      <div class="q-ml-md">
-        <div class="text-subtitle2 text-bold">Pago por <span class="text-negative">Daviplata</span></div>
-        <div class="text-caption">Número: <strong>3164110047</strong></div>
-        <div class="text-caption">Titular: <strong>Cristian Vesga</strong></div>
+      <div class="column items-center text-center">
+        <div class="text-subtitle1 text-bold">
+          <span class="text-secondary">Pago Directo</span>
+        </div>
+        <div class="text-caption">
+          También puedes pagar directamente en la <br />
+          <strong>Oficina de Administración del Centro Comercial.</strong>
+        </div>
       </div>
     </div>
   </div>
@@ -394,6 +287,22 @@
   />
 </div>
 
+<q-card class="q-mb-md q-pa-md text-center" style="margin: 30px 0px; border-radius: 10px;">
+  <div class="q-pa-md" style="background-color: #f5f5f5; border-radius: 8px;">
+    <p class="text-subtitle2 text-bold q-mb-sm text-center">Aviso de Privacidad</p>
+    <p class="text-caption text-grey-8 q-mb-none text-center">
+      En cumplimiento de la <strong>ley 1581 de 2012 "Ley de protección de datos"</strong> , los datos anteriormente
+      suministrados serán utilizados por Centro Comercial Sangil Plaza únicamente para los fines de la Carrera.
+    </p>
+  </div>
+
+  <div class="q-mt-md">
+    <p class="text-subtitle2 text-bold q-mb-sm text-center">Confirmación y Pago</p>
+    <p class="text-caption text-grey-8 q-mb-none text-center q-px-md">
+  ¡Ya casi terminas! Luego de subir tu comprobante, confirma tu registro haciendo clic en el botón <strong>"Inscribirme"</strong> para asegurar tu cupo en la carrera. ¡No te quedes por fuera!
+</p>
+  </div>
+</q-card>
         <!-- Boton-->
         <div class="row justify-center q-mt-xl">
   <q-btn
@@ -421,16 +330,16 @@
       color="blue-7"
       @click="openLink('https://www.facebook.com/jireh.sangil?rdid=gfiRL00CtTelI6eX&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1AHjr6uPQS%2F#')"
     />
-    <q-btn flat round @click="openLink('https://wa.me/573164110047')" color="white">
+    <q-btn flat round @click="openLink('https://wa.me/573157836545')" color="white">
   <img src="https://pngimg.com/d/whatsapp_PNG21.png" alt="WhatsApp" style="width: 24px; height: 24px;" />
 </q-btn>
-<q-btn flat round @click="openLink('https://www.instagram.com/jireth_sport_365?igsh=bTU0bHMya3o4bzVz')" color="white">
+<q-btn flat round @click="openLink('https://www.instagram.com/sangilplaza.co?igsh=c2N3dzlyYTdrOGk3')" color="white">
   <img src="https://png.pngtree.com/png-vector/20221018/ourmid/pngtree-instagram-social-platform-icon-png-image_6315976.png" alt="Instagram" style="width: 24px; height: 24px;" />
 </q-btn>
   </div>
 
   <div class="text-caption q-mt-md">
-    También puedes escribirnos a <span class="text-primary">Jirethsport365@gmail.com</span>
+    También puedes escribirnos a <span class="text-primary"> gerencia@sangilplaza.co</span>
   </div>
 </div>
       </q-form>
@@ -452,7 +361,8 @@
     </q-card-section>
 
     <q-card-actions align="center">
-      <q-btn flat label="Entendido"  outline color="primary" v-close-popup />
+      <q-btn flat label="Entendido"  outline color="primary" v-close-popup onclick="window.location.reload()" />
+
     </q-card-actions>
   </q-card>
 </q-dialog>
@@ -464,7 +374,11 @@ import { ref, watch, computed} from 'vue'
 import { postData } from '../services/apiClient.js'
 import { Notify } from 'quasar'
 const formRef = ref();
-const form = ref({});
+const form = ref({
+  category: null,
+  birthDate: null,
+  age: null,
+});
 const fileInput = ref(null);
 const loading = ref(false);
 const loading2 = ref(false);
@@ -473,13 +387,52 @@ const showConfirmation = ref(false);
 const closeModalImage = ref(false);
 
 const priceInscription = computed(() => {
-  return form.value.category === 'Juvenil' ? 20000 : 25000
+  return form.value.category === 'Juvenil' ? 50000 : 70000
 })
 
-const priceShirt = computed(() => {
-  if (form.value.shirt === 'No') return 0
-  return form.value.shirtWithSleeves === 'Si' ? 40000 : 35000
-})
+// Propiedad computada para calcular la edad automáticamente
+const calculatedAge = computed(() => {
+  if (!form.value.birthDate) {
+    return null;
+  }
+  
+  // Parsea la fecha en formato DD-MM-YYYY
+  const [day, month, year] = form.value.birthDate.split('-');
+  const birthDate = new Date(`${year}-${month}-${day}`);
+  const today = new Date();
+  
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  return age;
+});
+
+// Propiedad computada para determinar la categoría
+const calculatedCategory = computed(() => {
+  const age = calculatedAge.value;
+  if (age === null) {
+    return null;
+  }
+  
+  // Lógica de categoría según el banner
+  if (age <= 17) {
+    return 'Juvenil';
+  } else {
+    return 'Élite'; // Asumiendo que 18+ es la categoría Élite
+  }
+});
+
+// Watcher para sincronizar los valores computados con el objeto `form`
+watch(calculatedAge, (newAge) => {
+  form.value.age = newAge;
+});
+
+watch(calculatedCategory, (newCategory) => {
+  form.value.category = newCategory;
+});
+
 
 
 const total = computed(() => {
@@ -545,7 +498,7 @@ const onSubmit = async () => {
         message: 'Registro exitoso'
       })
       showConfirmation.value = true;
-   /*    formRef.value.reset(); */
+     
       console.log(response.data);
     }
     else {
@@ -597,13 +550,24 @@ function openLink(url) {
   font-family: "Montserrat", sans-serif;
 }
 
+/* .form-container {
+  position: relative;
+  min-height: 100vh;
+  background-image: url("/fondddd.jpg");
+  background-repeat: repeat;
+  
+  background-size: 200px 150px;
+ 
+} */
+
 .form-container {
   position: relative;
   min-height: 100vh;
-  background-image: url("/fond.jpg");
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.7)),
+    url("/fonddd.jpg");
   background-repeat: repeat;
   background-size: 200px 150px;
- 
 }
 
 .card-form {

@@ -3,7 +3,7 @@
         <div class="row justify-end">
     <q-card
       class="my-card q-pa-sm shadow-3 "
-      style="width: 100px; background-color: #000; color: #99ff43;">
+      style="width: 100px; background-color: #000; color:white;">
       <div style="font-size: 10px;">
         <div>
           <div class=" text-weight-bold text-center">Total Inscritos</div>
@@ -65,9 +65,7 @@
       :loading="enviando"
       @click="enviarCorreos"
     />
-    <q-banner v-if="mensaje" class="q-mt-md" dense>
-      {{ mensaje }}
-    </q-banner>
+    
   </div>
   
 </q-card-section>
@@ -122,7 +120,7 @@
           >
             <!-- Encabezado personalizado -->
             <template v-slot:header="props">
-              <q-tr class="bg-black text-white text-bold">
+              <q-tr class="bg-grey-2 text-black text-bold">
                 <q-th v-for="col in props.cols" :key="col.name" :props="props" class="header-table">
                   {{ col.label }}
                 </q-th>
@@ -364,16 +362,6 @@
             </q-item>
           </div>
 
-          <div class="col-12 col-sm-6">
-            <q-item>
-              <q-item-section avatar><q-icon name="checkroom" color="primary" /></q-item-section>
-              <q-item-section>
-                <q-item-label class="text-bold">Camiseta Con Mangas</q-item-label>
-                <q-item-label caption>{{datosSeleccionados.shirtWithSleeves }}</q-item-label>
-              </q-item-section>
-            </q-item>
-            </div>
-
             <div class="col-12 col-sm-6">
             <q-item>
               <q-item-section avatar><q-icon name="checkroom" color="primary" /></q-item-section>
@@ -494,8 +482,6 @@
       { name: 'documentNumber', label: 'Documento', field: 'documentNumber', align: 'left' },
       { name: 'fullName', label: 'Nombres', field: 'firstName', align: 'center' },
       { name: 'category', label: 'Categoría', field: 'category', align: 'center' },
-      { name: 'shirt', label: 'Camiseta', field: 'shirt', align: 'center' },
-      {name: 'shirtWithSleeves', label: 'C. con Mangas',field: 'shirtWithSleeves',align: 'center'},
       {name:'shirtSize', label: 'Talla Camiseta', field: 'shirtSize', align: 'center'},
       { name: 'total', label: 'Total', field: 'total', align: 'center' },
       { name: 'actions', label: 'Acciones', field: 'actions', align: 'center' }
@@ -538,12 +524,27 @@ const loadingEarrings = ref(false);
 const enviarCorreos = async () => {
   enviando.value = true
   mensaje.value = ''
+  
   try {
     const res = await postData('/emailKit/enviar-correos-kit')
     mensaje.value = res
+    console.log(res, 'correos enviados')
+
+    Notify.create({
+      type: 'positive',
+      message: res,
+      timeout: 6000,
+      position: 'top'
+    })
   } catch (err) {
     mensaje.value = '❌ Ocurrió un error al enviar los correos.'
-    console.error(err)
+      Notify.create({
+      type: 'negative',
+      message: '❌ Error al enviar los correos. Inténtalo nuevamente o revisa la conexión.',
+      timeout: 6000,
+      position: 'top'
+    })
+    console.error(err, 'error enviando correos')
   } finally {
     enviando.value = false
   }

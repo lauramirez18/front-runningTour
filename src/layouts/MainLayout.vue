@@ -2,16 +2,16 @@
 <template>
   <q-layout view="hHh lpR fff">
 
-    <q-header elevated class="bg-dark text-white" height-hint="98" v-show="$route.path !== '/' && $route.path !== '/' && $route.path !== '/login' && $route.path !== '/form'">
+    <q-header elevated class="bg-grey-1 text-white" height-hint="98" v-show="$route.path !== '/' && $route.path !== '/' && $route.path !== '/login' && $route.path !== '/form'">
       <q-toolbar>
         <q-toolbar-title>
-          <q-avatar>
-            <img src="/logo.jpg">
-          </q-avatar>
-          <strong>  JIRETH SPORT</strong>
+          
+            <img height="60px" width="100px" src="/logoo.png" alt="Logo"></img>
+          
+         
         </q-toolbar-title>
         <q-space/>
-        <q-btn icon="logout" @click="CerrarSesion()">
+        <q-btn icon="logout" @click="CerrarSesion()" text-color="amber-10">
            <q-tooltip>Cerrar Sesion</q-tooltip>
         </q-btn>
        
@@ -23,10 +23,10 @@
       <router-view />
     </q-page-container>
 
-    <q-footer elevated class="bg-dark text-grey-9 q-pa-sm text-center text-caption">
+    <q-footer elevated class="bg-dark  q-pa-sm text-center text-caption">
   <q-toolbar class="q-pa-none justify-center">
-    <div class="text-caption text-center">
-      |Formulario Desarrollado por <strong>Andres Felipe Sierra</strong> y <strong>Laura Ramirez Avendaño</strong> | © {{ new Date().getFullYear() }}
+    <div class="text-caption text-center">  
+      |Formulario Desarrollado por <strong>Laura Ramirez Avendaño</strong> y <strong>Andres Felipe Sierra</strong> | © {{ new Date().getFullYear() }}
     </div>
   </q-toolbar>
 </q-footer>

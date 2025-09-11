@@ -4,11 +4,10 @@
   
         <!-- Encabezado -->
         <div class="text-center q-mb-md">
-          <q-avatar size="100px" class="q-mb-sm">
-            <img src="/logo.jpg" />
-          </q-avatar>
-          <div class="text-h5 text-weight-bold">JIRETH SPORT</div>
-          <div class="text-subtitle2 text-weight-bold text-grey-5" >RUNNING TOUR</div>
+          
+            <img height="100px" src="/logoo.png" alt="Logo"></img>
+        
+         
         
         </div>
   
@@ -22,8 +21,9 @@
           />
           <q-btn 
             label="INSCRIPCIÓN" 
-            color="negative"
+            color="warning"
             outline 
+            text-color="amber-10"
             @click="redirigirAInscripcion" 
           />
         </q-card-actions>
@@ -145,9 +145,12 @@
 }
 
   .bg-login {
-
-     background: url("/fond.jpg");
-  
+ position: relative;
+  min-height: 100vh;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)),
+    url("/fondddd.jpg");
+  background-repeat: repeat;
   background-size: 200px 150px;
 
 }
@@ -156,13 +159,13 @@
   .card-container {
     width: 100%;
     max-width: 350px;
-    box-shadow: 0 0  10px rgb(255, 67, 67); /* Verde lima con difuminado */
+    box-shadow: 0 0  10px rgb(245, 121, 19); /* Verde lima con difuminado */
     border: none;
     backdrop-filter: blur(8px);
     background: rgba(255, 255, 255, 0.95);
     padding: 50px 16px;
     border-radius: 12px;
-    background-color: black;
+    background-color: rgb(219, 219, 219);
   }
   
   .form-wrapper {
