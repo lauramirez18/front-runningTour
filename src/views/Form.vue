@@ -2,7 +2,24 @@
   <div class="bg-fixed q-pa-lg flex flex-center form-container">
     <q-card class="q-pa-md q-mx-auto full-width card-form" style="max-width: 800px;">
       <!-- Imagen de la carrera -->
-      <q-img src="/banner_formm.jpg" class="q-mb-md" style="border-radius: 0px;" />
+     <q-card class="q-mb-md q-pa-none shadow-2" style="border-radius: 8px;">
+  <div class="row q-col-gutter-xs">
+    <div class="col-xs-12 col-sm-6">
+      <q-img
+        src="/banner_formmm.jpg"
+        class="rounded-borders"
+      />
+    </div>
+
+    <div class="col-xs-12 col-sm-6">
+      <q-img
+        src="/banner_formmmm.jpg"
+        class="rounded-borders"
+      />
+    </div>
+  </div>
+  
+</q-card>
 
       <!-- QForm para validación -->
       <q-form @submit="onSubmit" @reset="onReset" ref="formRef">
@@ -148,13 +165,9 @@
               </div>
             </div>
            
-            <div class="col-12 col-md-6 displayBlack">
-              <div class="form-field">
-                <label for="categoria">Categoría</label>
-                <q-select filled dense v-model="calculatedCategory" readonly />
-              </div>
-            </div>
-             <div class="col-12  displayBlack">
+            
+            
+             <div class="col-12 col-md-6 displayBlack">
               <div class="form-field">
                  <label for="talla">Talla de camiseta</label>
         <q-select
@@ -169,7 +182,6 @@
             </div>
           </div>
         </div>
-
         <div class="q-mt-xl">
   <h4 class="text-bold q-mb-md text-h5">
     DATOS DE PAGO</h4>
@@ -375,7 +387,7 @@ import { postData } from '../services/apiClient.js'
 import { Notify } from 'quasar'
 const formRef = ref();
 const form = ref({
-  category: null,
+  category: "N/A",
   birthDate: null,
   age: null,
 });
@@ -387,7 +399,7 @@ const showConfirmation = ref(false);
 const closeModalImage = ref(false);
 
 const priceInscription = computed(() => {
-  return form.value.category === 'Juvenil' ? 50000 : 70000
+  return form.value.distance === '6K' ? 50000 : 70000
 })
 
 // Propiedad computada para calcular la edad automáticamente
@@ -483,38 +495,60 @@ async function searchImage(event) {
 
 
 const onSubmit = async () => {
-    try {
-    loading.value = true
-    const success = await formRef.value.validate()
-    if (success) {
+  try {
+    loading.value = true;
+    const formIsValid = await formRef.value.validate();
+
+    if (formIsValid) {
+      // **Nueva validación para la imagen del comprobante**
+      if (!form.value.image) {
+        Notify.create({
+          type: 'negative',
+          message: 'El comprobante de pago es requerido.',
+          icon: 'warning',
+          position: 'top'
+        });
+        loading.value = false;
+        return; // Detiene la ejecución si no hay imagen
+      }
+
       form.value.total = total.value;
-      console.log('Formulario válido:', form.value)
-      const formData = new FormData()
-      formData.append('image', form.value.image)
-      formData.append('data',JSON.stringify(form.value))
-      const response = await postData("/inscription/register",formData);
+      console.log('Formulario válido:', form.value);
+      const formData = new FormData();
+      formData.append('image', form.value.image);
+      formData.append('data', JSON.stringify(form.value));
+
+      const response = await postData("/inscription/register", formData);
+      
       Notify.create({
         type: 'positive',
         message: 'Registro exitoso'
-      })
+      });
       showConfirmation.value = true;
-     
       console.log(response.data);
-    }
-    else {
-      throw new Error('Hay errores en el formulario')
+    } else {
+      throw new Error('Hay errores en el formulario');
     }
   } catch (error) {
+    // Si la validación de la imagen falló en el backend, el error de Axios se capturará aquí
+    let errorMessage = 'Registro fallido, intente nuevamente.';
+
+    if (error.response && error.response.data && error.response.data.message) {
+      errorMessage = error.response.data.message;
+    }
+    
     Notify.create({
       type: 'negative',
-      message: 'Registro fallido , intente nuevamente'
-    })
+      message: errorMessage,
+      timeout: 5000,
+      icon: 'warning',
+      position: 'top'
+    });
     console.log(error);
+  } finally {
+    loading.value = false;
   }
-  finally {
-    loading.value = false
-  }
-}
+};
 
 const onReset = () => {
   formRef.value.resetValidation()
