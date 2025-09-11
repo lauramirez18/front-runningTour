@@ -17,8 +17,8 @@ const routes = [
         children:[
               {
                 path: '',
-                name: 'closeForm',
-                component: ClosedForm,
+                name: 'Form',
+                component: Form,
               },
               
             {
@@ -33,11 +33,11 @@ const routes = [
                 component: Form,
             }, */
             
-            {
+            /* {
                 path:'/form',
                 name: 'closedForm',
                 component:  ClosedForm,
-            }, 
+            },  */
         ]               
 
     },
