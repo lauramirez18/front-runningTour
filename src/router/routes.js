@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import  MainLayout from '../layouts/MainLayout.vue'
+import MainLayout from '../layouts/MainLayout.vue'
 import Dashboard from '../views/Dashboard.vue'
 import Login from '../views/Login.vue'
 import Form from '../views/Form.vue'
@@ -9,39 +9,39 @@ const routes = [
     {
         path: '/login',
         name: 'Login',
-        component:Login,
+        component: Login,
     },
     {
         path: '',
         component: MainLayout,
-        children:[
-              {
+        children: [
+            {
                 path: '',
                 name: 'form',
                 component: Form,
-              },
-              
+            },
+
             {
-                path:'/dashboard',
+                path: '/dashboard',
                 name: 'Dashboard',
                 component: Dashboard,
             },
-            
-             {
-                path:'/form',
+
+            {
+                path: '/form',
                 name: 'Form',
                 component: Form,
-            }, 
-            
-           /*  {
-                path:'/form',
-                name: 'closedForm',
-                component:  ClosedForm,
-            },  */
-        ]               
+            },
+
+            /*  {
+                 path:'/form',
+                 name: 'closedForm',
+                 component:  ClosedForm,
+             },  */
+        ]
 
     },
-    
+
 ]
 
 export const router = createRouter({
