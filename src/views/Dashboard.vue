@@ -3,7 +3,7 @@
         <div class="row justify-end">
     <q-card
       class="my-card q-pa-sm shadow-3 "
-      style="width: 100px; background-color: #000; color:white;">
+      style="width: 100px; background-color: #000; color:white; border-radius: 0px;">
       <div style="font-size: 10px;">
         <div>
           <div class=" text-weight-bold text-center">Total Inscritos</div>
@@ -58,7 +58,7 @@
       style="font-weight: bold;"
     />
   </div>
-   <div class="column items-center">
+   <!-- <div class="column items-center">
     <q-btn 
       label="Enviar correos de entrega de kit"
       color="primary"
@@ -66,7 +66,7 @@
       @click="enviarCorreos"
     />
     
-  </div>
+  </div> -->
   
 </q-card-section>
         <q-card>
@@ -352,7 +352,7 @@
             </q-item>
           </div>
 
-          <div class="col-12 col-sm-6">
+          <!-- <div class="col-12 col-sm-6">
             <q-item>
               <q-item-section avatar><q-icon name="checkroom" color="primary" /></q-item-section>
               <q-item-section>
@@ -360,7 +360,7 @@
                 <q-item-label caption>{{ datosSeleccionados.shirt }}</q-item-label>
               </q-item-section>
             </q-item>
-          </div>
+          </div> -->
 
             <div class="col-12 col-sm-6">
             <q-item>
@@ -481,7 +481,6 @@
       {name: "createdAt", label: "Fecha de Elaboración", align: "center", field: row => date.formatDate(row.createdAt, 'DD/MM/YYYY'), sortable: true},
       { name: 'documentNumber', label: 'Documento', field: 'documentNumber', align: 'left' },
       { name: 'fullName', label: 'Nombres', field: 'firstName', align: 'center' },
-      { name: 'category', label: 'Categoría', field: 'category', align: 'center' },
       {name:'shirtSize', label: 'Talla Camiseta', field: 'shirtSize', align: 'center'},
       { name: 'total', label: 'Total', field: 'total', align: 'center' },
       { name: 'actions', label: 'Acciones', field: 'actions', align: 'center' }
