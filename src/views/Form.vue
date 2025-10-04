@@ -137,12 +137,18 @@
               </div>
             </div>
             <div class="col-12 col-md-6 displayBlack">
-              <div class="form-field">
-                <label for="distancia">Distancia</label>
-                <q-select filled dense v-model="form.distance" :options="['6K' , '12K', ]"
-                  :rules="[val => !!val || 'Campo requerido']" />
-              </div>
-            </div>
+    <div class="form-field">
+        <label for="distancia">Distancia</label>
+        <q-select filled dense 
+            v-model="form.distance" 
+            :options="['6K' , '12K', '6K CAMINANTES' ]"
+            :rules="[val => !!val || 'Campo requerido']" />
+        
+        <p v-if="form.distance === '6K CAMINANTES'" class="text-caption text-red-7">
+            🚨 El kit de caminante no incluye chip de cronometraje
+        </p>
+    </div>
+</div>
             <div class="col-12 col-md-6 displayBlack">
               <div class="form-field">
                 <label for="gender">Género <span class="text-negative">*</span></label>
@@ -406,7 +412,9 @@ const showConfirmation = ref(false);
 const closeModalImage = ref(false);
 
 const priceInscription = computed(() => {
-  return form.value.distance === '6K' ? 65000 : 85000
+  return form.value.distance === '6K' ? 65000 
+    : form.value.distance === '6K CAMINANTES' ? 50000 
+    : 85000 // Este será el precio para '12K' (el caso restante)
 })
 
 // Propiedad computada para calcular la edad automáticamente
