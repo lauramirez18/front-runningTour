@@ -3,7 +3,8 @@
     <q-card class="q-pa-md q-mx-auto full-width card-form" style="max-width: 800px;">
       <!-- Imagen de la carrera -->
      <q-card class="q-mb-md q-pa-none shadow-2" style="border-radius: 8px;">
-  <div class="row q-col-gutter-xs">
+       <q-img src="/banner1.jpg" class="q-mb-md" style="border-radius: 0px;" />
+  <!-- <div class="row q-col-gutter-xs">
     <div class="col-xs-12 col-sm-6">
       <q-img
         src="/banner_formmm.jpg"
@@ -17,7 +18,7 @@
         class="rounded-borders"
       />
     </div>
-  </div>
+  </div> -->
   
 </q-card>
 
@@ -121,7 +122,12 @@
         <!-- Sección 3: Datos de la carrera -->
         <div class="q-mt-xl">
           <h4 class="text-bold q-mb-md text-h5">DATOS DE LA CARRERA</h4>
+          <q-card class="q-mb-md q-pa-none shadow-2" style="border-radius: 8px;">
+       <q-img src="/banner_formmmm.jpg" class="q-mb-md" style="border-radius: 0px;" />
+</q-card>
+
           <div class="row q-col-gutter-md">
+            
             <div class="col-12 col-md-6 displayBlack">
               <div class="form-field">
                 <label for="sangre">Tipo de sangre <span class="text-negative">*</span></label>
@@ -131,12 +137,18 @@
               </div>
             </div>
             <div class="col-12 col-md-6 displayBlack">
-              <div class="form-field">
-                <label for="distancia">Distancia</label>
-                <q-select filled dense v-model="form.distance" :options="['6K' , '12K', ]"
-                  :rules="[val => !!val || 'Campo requerido']" />
-              </div>
-            </div>
+    <div class="form-field">
+        <label for="distancia">Distancia</label>
+        <q-select filled dense 
+            v-model="form.distance" 
+            :options="['6K' , '12K', '6K CAMINANTES' ]"
+            :rules="[val => !!val || 'Campo requerido']" />
+        
+        <p v-if="form.distance === '6K CAMINANTES'" class="text-caption text-red-7">
+            🚨 El kit de caminante no incluye chip de cronometraje
+        </p>
+    </div>
+</div>
             <div class="col-12 col-md-6 displayBlack">
               <div class="form-field">
                 <label for="gender">Género <span class="text-negative">*</span></label>
@@ -255,7 +267,7 @@
 <div class="col-12 col-md-6 q-mt-md">
   <div class="flex justify-center items-center gap-2">
   <q-btn
-    color="dark"
+    color="secondary"
     icon="cloud_upload"
     label="Subir comprobante de pago"
     @click="OpenSearch()"
@@ -263,7 +275,8 @@
     unelevated
     rounded
     no-caps
-    class="q-px-lg"
+    class="q-px-lg animate-pulse"
+
   />
   <span 
     v-show="showSpam" 
@@ -320,7 +333,7 @@
   <q-btn
     label="Inscribirme"
     :loading="loading"
-    color="secondary"
+    color="positive"
     type="submit"
     unelevated
     no-caps
@@ -399,7 +412,9 @@ const showConfirmation = ref(false);
 const closeModalImage = ref(false);
 
 const priceInscription = computed(() => {
-  return form.value.distance === '6K' ? 50000 : 70000
+  return form.value.distance === '6K' ? 65000 
+    : form.value.distance === '6K CAMINANTES' ? 50000 
+    : 85000 // Este será el precio para '12K' (el caso restante)
 })
 
 // Propiedad computada para calcular la edad automáticamente
@@ -621,7 +636,24 @@ h4 {
   margin-bottom: 35px;
 }
 
+.animate-pulse {
+  animation: pulse 2s infinite;
+}
 
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(32, 177, 219, 0.7);
+  }
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 10px rgba(32, 177, 219, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(32, 177, 219, 0);
+  }
+}
 
 form label {
 
